@@ -1,0 +1,36 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flomesh Service Mesh – Releases</title>
+    <link>https://fsm-docs.flomesh.io/docs/releases/</link>
+    <description>Recent content in Releases on Flomesh Service Mesh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	  <atom:link href="https://fsm-docs.flomesh.io/docs/releases/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: All Documentation Releases</title>
+      <link>https://fsm-docs.flomesh.io/docs/releases/docs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/releases/docs/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;all-documentation-releases&#34;&gt;All Documentation Releases&lt;/h1&gt;
+&lt;h2 id=&#34;active-releases&#34;&gt;Active Releases&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://release-v1-3.fsm-docs.flomesh.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;v0.2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
