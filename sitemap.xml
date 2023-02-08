@@ -2,7 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://fsm-docs.flomesh.io/docs/overview/about/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/overview/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/getting_started/setup_fsm/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -10,7 +22,19 @@
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/egress_gateway/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/overview/components/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/quickstart/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/multicluster/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -31,6 +55,14 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/releases/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/demos/multicluster_services_communication/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/demos/multicluster_services_access_control/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>

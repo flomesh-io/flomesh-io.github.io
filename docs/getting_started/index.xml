@@ -14,5 +14,36 @@
       
     
     
+    <item>
+      <title>Docs: Setup FSM</title>
+      <link>https://fsm-docs.flomesh.io/docs/getting_started/setup_fsm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/getting_started/setup_fsm/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;setup-fsm&#34;&gt;Setup FSM&lt;/h1&gt;
+&lt;p&gt;This guide explains the procedure required to install FSM component(s) on a running Kubernetes cluster.&lt;/p&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;a cluster running Kubernetes v1.19.0 or greater (using a cloud provider of choice, &lt;a href=&#34;https://minikube.sigs.k8s.io/docs/start/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;minikube&lt;/a&gt;, or similar)&lt;/li&gt;
+&lt;li&gt;a workstation capable of executing &lt;a href=&#34;https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Bash&lt;/a&gt; scripts&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/tools/#kubectl&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;The Kubernetes command-line tool&lt;/a&gt; - &lt;code&gt;kubectl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;the &lt;a href=&#34;https://helm.sh/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;helm&lt;/a&gt;  cli available locally&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;install-via-helm&#34;&gt;Install via Helm&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;FSM_VERSION&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;0.2.0
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;FSM_NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;fsm
+helm install fsm fsm/fsm --namespace &lt;span style=&#34;color:#000&#34;&gt;$FSM_NAMESPACE&lt;/span&gt; --create-namespace --version &lt;span style=&#34;color:#000&#34;&gt;$FSM_VERSION&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Make sure that all pods are up and running.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl get po -n &lt;span style=&#34;color:#000&#34;&gt;$FSM_NAMESPACE&lt;/span&gt;
+NAME                                READY   STATUS    RESTARTS   AGE
+fsm-repo-59fc7c8fb6-fvscv           1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          2m5s
+fsm-manager-5bcfd7bd9d-pxfz9        1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          2m5s
+fsm-ingress-pipy-64f9df95f6-56t4m   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          2m5s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
   </channel>
 </rss>

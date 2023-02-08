@@ -8,34 +8,38 @@
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://fsm-docs.flomesh.io/docs/demos/index.xml">
 
 
-<link rel="shortcut icon" href="../../favicon/favicon.ico" >
-<link rel="apple-touch-icon" href="../../images/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" type="image/png" href="../../favicon/favicon.png">
+<link rel="shortcut icon" href="../../../favicon/favicon.ico" >
+<link rel="apple-touch-icon" href="../../../images/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" type="image/png" href="../../../favicon/favicon.png">
 
-<title>Demos | Flomesh Service Mesh</title><meta property="og:title" content="Demos" />
-<meta property="og:description" content="The demos provide a good starting point to get familiar with FSM&#39;s features." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/demos/" /><meta property="og:site_name" content="Flomesh Service Mesh" />
+<title>Flomesh Service Loadbalancer | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Service Loadbalancer" />
+<meta property="og:description" content="Learn how to use FSM Service loadbalancing component" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/" /><meta property="article:section" content="docs" />
 
-<meta itemprop="name" content="Demos">
-<meta itemprop="description" content="The demos provide a good starting point to get familiar with FSM&#39;s features."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Demos"/>
-<meta name="twitter:description" content="The demos provide a good starting point to get familiar with FSM&#39;s features."/>
+<meta property="og:site_name" content="Flomesh Service Mesh" />
 
+<meta itemprop="name" content="Flomesh Service Loadbalancer">
+<meta itemprop="description" content="Learn how to use FSM Service loadbalancing component">
 
-
-
-
-
-
+<meta itemprop="wordCount" content="399">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flomesh Service Loadbalancer"/>
+<meta name="twitter:description" content="Learn how to use FSM Service loadbalancing component"/>
 
 
 
 
-<link rel="stylesheet" href="../../css/style.06a0e53c685ff2c3d54c610d820f1a183b52a35a0fb862dd8f32eb85d7141229.css" integrity="sha256-BqDlPGhf8sPVTGENgg8aGDtSo1oPuGLdjzLrhdcUEik=">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/style.06a0e53c685ff2c3d54c610d820f1a183b52a35a0fb862dd8f32eb85d7141229.css" integrity="sha256-BqDlPGhf8sPVTGENgg8aGDtSo1oPuGLdjzLrhdcUEik=">
 
 
 <script
@@ -50,12 +54,12 @@
 
 
 
-<link rel="stylesheet" href="../../css/prism.css" />
+<link rel="stylesheet" href="../../../css/prism.css" />
 
 
 
   </head>
-  <body class="td-section ">
+  <body class="td-page ">
     <header>
       
 
@@ -111,7 +115,7 @@
 	
 	<a class="dropdown-item" href="https://release-v0-2.fsm-docs.flomesh.io/">v0.2 (latest)</a>
 	
-	<a class="dropdown-item" href="../../docs/releases/docs">All Releases</a>
+	<a class="dropdown-item" href="../../../docs/releases/docs">All Releases</a>
 	
 </div>
 
@@ -146,8 +150,8 @@
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.d7ecce6774608a11ff1f2700d170b7c76f04e301cea1ab2f5f6702a7ae901733005494137facba08cd9153230bdbeca9af31a6a0cc44cb1ed14f4551301b0c38.json"
-  data-offline-search-base-href="../../"
+  data-offline-search-index-json-src="../../../offline-search-index.d7ecce6774608a11ff1f2700d170b7c76f04e301cea1ab2f5f6702a7ae901733005494137facba08cd9153230bdbeca9af31a6a0cc44cb1ed14f4551301b0c38.json"
+  data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
 
@@ -167,7 +171,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
       
     ">&gt; Docs</a>
   </li>
@@ -187,7 +191,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Overview of FSM</a>
   </li>
@@ -206,7 +210,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/quickstart/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/quickstart/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Quick Start</a>
   </li>
@@ -225,7 +229,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/getting_started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/getting_started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Getting Started</a>
   </li>
@@ -244,45 +248,32 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       collapsed
-    ">&gt; How-to Guides</a>
-  </li>
-  
-</ul>
-
-      
-      
-      
-      
-
-
-
-
-
-
-<ul class="td-sidebar-nav__section pr-md-3">
-  <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        active
-    ">&or; Demos</a>
+    ">&or; How-to Guides</a>
   </li>
   
   <ul class="td-sidebar-docs-menu">
-    <li class="collapse show" id="docsdemos">
+    <li class="collapse show" id="docsguides">
       
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosmulticluster_services_communication" href="../../docs/demos/multicluster_services_communication/">Multi-cluster services discovery &amp; communication</a>
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsguidesservice_loadbalancer" href="../../../docs/guides/service_loadbalancer/">Flomesh Service Loadbalancer</a>
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosmulticluster_services_access_control" href="../../docs/demos/multicluster_services_access_control/">Multi-cluster services access control</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesegress_gateway" href="../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesmulticluster" href="../../../docs/guides/multicluster/">Flomesh Multi-cluster API</a>
       
       
     </li>
@@ -302,7 +293,26 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/api_rerence/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+       collapsed
+    ">&gt; Demos</a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a href="../../../docs/api_rerence/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; API Reference</a>
   </li>
@@ -321,7 +331,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/releases/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/releases/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Releases</a>
   </li>
@@ -357,6 +367,9 @@
 
 
 
+
+
+
 <li class="breadcrumb-item" >
 	<a href="https://fsm-docs.flomesh.io/docs/">Docs</a>
 </li>
@@ -364,8 +377,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://fsm-docs.flomesh.io/docs/guides/">How-to Guides</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://fsm-docs.flomesh.io/docs/demos/">Demos</a>
+	<a href="https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/">Flomesh Service Loadbalancer</a>
 </li>
 
 	</ol>
@@ -373,67 +393,39 @@
 
             
 <div class="td-content">
-	<h1>Demos</h1>
-        <div class="lead">The demos provide a good starting point to get familiar with FSM&rsquo;s features.</div>
-	
-	
-        <div class="section-index">
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="../../docs/demos/multicluster_services_communication/">Multi-cluster services discovery &amp; communication</a>
-                    </h5>
-                    <p>Multi-cluster service communication using Flomesh Service Mesh</p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="../../docs/demos/multicluster_services_access_control/">Multi-cluster services access control</a>
-                    </h5>
-                    <p>Multi-cluster service access control</p>
-                </div>
-            
-        
-            
-        
-    
-</div>
+	<p><a href="https://kubernetes.io/docs/concepts/services-networking/service/" target="_blank" rel="noopener">Service</a> is a resource type in Kubernetes used to expose a group of Pod applications as a network service. Each Pod has its own IP, but this IP has the same lifespan as the Pod, which means that when the Pod is destroyed, the IP becomes invalid (it may also be allocated to other Pods). On the other hand, the IP <code>ClusterIP</code> of the <code>Service</code> does not change after creation. The <code>Service</code> is associated with the Pod through means such as <code>userspace proxy</code>, <code>iptables</code>, and <code>ipvs proxy</code>.</p>
+<p><code>LoadBalancer</code> is one of four types of <code>Service</code>, the others being <code>ClusterIP</code>, <code>NodePort</code>, and <code>ExternalName</code>.</p>
+<p>The operation of <code>LoadBalancer</code> requires collaboration with a third-party load balancer. When we install the <code>Ingress controller</code>, a <code>Service</code> of type <code>LoadBalancer</code> is created. The EXTERNAL-IP status of the newly created <code>Service</code> is <code>pending</code>, and if there is no load balancer, it will remain in the <code>pending</code> state.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">NAME                          TYPE           CLUSTER-IP      EXTERNAL-IP   PORT<span style="color:#ce5c00;font-weight:bold">(</span>S<span style="color:#ce5c00;font-weight:bold">)</span>        AGE
+fsm-ingress-pipy-controller   LoadBalancer   10.43.188.208   &lt;pending&gt;     80:30508/TCP   8s
+</code></pre></div><p>FSM comes with a built-in Service Load Balancer (referred to as ServiceLB) that provides load balancing capabilities.</p>
+<h2 id="internals-of-servicelb">Internals of ServiceLB</h2>
+<p>How ServiceLB works can be understood by 2 bullet points below:</p>
+<ul>
+<li>At runtime, it listens for changes in the <code>Service</code> in the cluster, and if the <code>Service</code> type is <code>LoadBalancer</code>, it creates a <code>Daemonset</code> and inputs information such as the <code>ClusterIP</code>, <code>Protocol</code>, <code>Port</code>, etc. of the <code>Service</code>. The rest of the work is done by <code>Daemonset</code> resource initated by ServiceLB.</li>
+<li>When processing traffic, it uses the host port (which is the same as the <code>Service</code> port number in <code>pod.spec.containers.ports.hostPort</code>) to receive traffic and uses iptables to forward the received traffic to the <code>ClusterIP</code> of the <code>Service</code>.</li>
+</ul>
+<p><img src="../../../docs/images/fsm-servicelb.png" alt="fsm-servicelb"></p>
+<h2 id="installation-and-usage">Installation and Usage</h2>
+<p>Using FSM ServiceLB is very simple, just provide the parameter <code>--set fsm.serviceLB.enabled=true</code> during installation to enable ServiceLB.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm repo add fsm https://flomesh-io.github.io/fsm
+helm repo update
+
+helm install <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --namespace fsm <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --create-namespace <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --set fsm.version<span style="color:#ce5c00;font-weight:bold">=</span>0.2.1-alpha.1 <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --set fsm.serviceLB.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  fsm fsm/fsm
+</code></pre></div><p>After FSM is installed and running, you can find the <code>Daemonset</code> it created.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get ds -n fsm
+NAME                                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+svclb-fsm-ingress-pipy-controller-37e63610   <span style="color:#0000cf;font-weight:bold">1</span>         <span style="color:#0000cf;font-weight:bold">1</span>         <span style="color:#0000cf;font-weight:bold">1</span>       <span style="color:#0000cf;font-weight:bold">1</span>            <span style="color:#0000cf;font-weight:bold">1</span>           &lt;none&gt;          3m
+</code></pre></div><p>At the same time, you can see the assigned <code>EXTERNAL-IP</code> on the ingress controller service.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get svc -n fsm -l app.kubernetes.io/component<span style="color:#ce5c00;font-weight:bold">=</span>controller
+NAME                          TYPE           CLUSTER-IP     EXTERNAL-IP   PORT<span style="color:#ce5c00;font-weight:bold">(</span>S<span style="color:#ce5c00;font-weight:bold">)</span>                      AGE
+fsm-ingress-pipy-controller   LoadBalancer   10.43.144.20   10.0.0.12     80:30508/TCP   4h10m
+</code></pre></div><p>You can access the application using the <code>EXTERNAL-IP</code>.</p>
 
 	
 		<style>
@@ -499,6 +491,7 @@
 	
 </div>
 
+
           </main>
         </div>
       </div>
@@ -558,11 +551,11 @@
 
 
 
-<script src="../../js/main.min.4310a35a2022b0e5a24f13dcf99aa4ea745e3027f710beacfe22327da5d855c5.js" integrity="sha256-QxCjWiAisOWiTxPc&#43;Zqk6nReMCf3EL6s/iIyfaXYVcU=" crossorigin="anonymous"></script>
+<script src="../../../js/main.min.4310a35a2022b0e5a24f13dcf99aa4ea745e3027f710beacfe22327da5d855c5.js" integrity="sha256-QxCjWiAisOWiTxPc&#43;Zqk6nReMCf3EL6s/iIyfaXYVcU=" crossorigin="anonymous"></script>
 
 
 
-<script src='../../js/prism.js'></script>
+<script src='../../../js/prism.js'></script>
 
 
 

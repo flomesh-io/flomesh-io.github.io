@@ -8,34 +8,38 @@
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
-<link rel="alternate" type="application/rss&#43;xml" href="https://fsm-docs.flomesh.io/docs/demos/index.xml">
 
 
-<link rel="shortcut icon" href="../../favicon/favicon.ico" >
-<link rel="apple-touch-icon" href="../../images/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" type="image/png" href="../../favicon/favicon.png">
+<link rel="shortcut icon" href="../../../favicon/favicon.ico" >
+<link rel="apple-touch-icon" href="../../../images/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" type="image/png" href="../../../favicon/favicon.png">
 
-<title>Demos | Flomesh Service Mesh</title><meta property="og:title" content="Demos" />
-<meta property="og:description" content="The demos provide a good starting point to get familiar with FSM&#39;s features." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/demos/" /><meta property="og:site_name" content="Flomesh Service Mesh" />
+<title>Flomesh Multi-cluster API | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Multi-cluster API" />
+<meta property="og:description" content="Learn how to use FSM Multi-cluster component for cross cluster service communication" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta itemprop="name" content="Demos">
-<meta itemprop="description" content="The demos provide a good starting point to get familiar with FSM&#39;s features."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Demos"/>
-<meta name="twitter:description" content="The demos provide a good starting point to get familiar with FSM&#39;s features."/>
+<meta property="og:site_name" content="Flomesh Service Mesh" />
 
+<meta itemprop="name" content="Flomesh Multi-cluster API">
+<meta itemprop="description" content="Learn how to use FSM Multi-cluster component for cross cluster service communication">
 
-
-
-
-
-
+<meta itemprop="wordCount" content="460">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flomesh Multi-cluster API"/>
+<meta name="twitter:description" content="Learn how to use FSM Multi-cluster component for cross cluster service communication"/>
 
 
 
 
-<link rel="stylesheet" href="../../css/style.06a0e53c685ff2c3d54c610d820f1a183b52a35a0fb862dd8f32eb85d7141229.css" integrity="sha256-BqDlPGhf8sPVTGENgg8aGDtSo1oPuGLdjzLrhdcUEik=">
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../css/style.06a0e53c685ff2c3d54c610d820f1a183b52a35a0fb862dd8f32eb85d7141229.css" integrity="sha256-BqDlPGhf8sPVTGENgg8aGDtSo1oPuGLdjzLrhdcUEik=">
 
 
 <script
@@ -50,12 +54,12 @@
 
 
 
-<link rel="stylesheet" href="../../css/prism.css" />
+<link rel="stylesheet" href="../../../css/prism.css" />
 
 
 
   </head>
-  <body class="td-section ">
+  <body class="td-page ">
     <header>
       
 
@@ -111,7 +115,7 @@
 	
 	<a class="dropdown-item" href="https://release-v0-2.fsm-docs.flomesh.io/">v0.2 (latest)</a>
 	
-	<a class="dropdown-item" href="../../docs/releases/docs">All Releases</a>
+	<a class="dropdown-item" href="../../../docs/releases/docs">All Releases</a>
 	
 </div>
 
@@ -146,8 +150,8 @@
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.d7ecce6774608a11ff1f2700d170b7c76f04e301cea1ab2f5f6702a7ae901733005494137facba08cd9153230bdbeca9af31a6a0cc44cb1ed14f4551301b0c38.json"
-  data-offline-search-base-href="../../"
+  data-offline-search-index-json-src="../../../offline-search-index.d7ecce6774608a11ff1f2700d170b7c76f04e301cea1ab2f5f6702a7ae901733005494137facba08cd9153230bdbeca9af31a6a0cc44cb1ed14f4551301b0c38.json"
+  data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
 
@@ -167,7 +171,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
       
     ">&gt; Docs</a>
   </li>
@@ -187,7 +191,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Overview of FSM</a>
   </li>
@@ -206,7 +210,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/quickstart/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/quickstart/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Quick Start</a>
   </li>
@@ -225,7 +229,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/getting_started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/getting_started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Getting Started</a>
   </li>
@@ -244,45 +248,32 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       collapsed
-    ">&gt; How-to Guides</a>
-  </li>
-  
-</ul>
-
-      
-      
-      
-      
-
-
-
-
-
-
-<ul class="td-sidebar-nav__section pr-md-3">
-  <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        active
-    ">&or; Demos</a>
+    ">&or; How-to Guides</a>
   </li>
   
   <ul class="td-sidebar-docs-menu">
-    <li class="collapse show" id="docsdemos">
+    <li class="collapse show" id="docsguides">
       
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosmulticluster_services_communication" href="../../docs/demos/multicluster_services_communication/">Multi-cluster services discovery &amp; communication</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesservice_loadbalancer" href="../../../docs/guides/service_loadbalancer/">Flomesh Service Loadbalancer</a>
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosmulticluster_services_access_control" href="../../docs/demos/multicluster_services_access_control/">Multi-cluster services access control</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesegress_gateway" href="../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsguidesmulticluster" href="../../../docs/guides/multicluster/">Flomesh Multi-cluster API</a>
       
       
     </li>
@@ -302,7 +293,26 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/api_rerence/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+       collapsed
+    ">&gt; Demos</a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+      
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a href="../../../docs/api_rerence/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; API Reference</a>
   </li>
@@ -321,7 +331,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../docs/releases/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../docs/releases/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Releases</a>
   </li>
@@ -357,6 +367,9 @@
 
 
 
+
+
+
 <li class="breadcrumb-item" >
 	<a href="https://fsm-docs.flomesh.io/docs/">Docs</a>
 </li>
@@ -364,8 +377,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://fsm-docs.flomesh.io/docs/guides/">How-to Guides</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://fsm-docs.flomesh.io/docs/demos/">Demos</a>
+	<a href="https://fsm-docs.flomesh.io/docs/guides/multicluster/">Flomesh Multi-cluster API</a>
 </li>
 
 	</ol>
@@ -373,67 +393,78 @@
 
             
 <div class="td-content">
-	<h1>Demos</h1>
-        <div class="lead">The demos provide a good starting point to get familiar with FSM&rsquo;s features.</div>
-	
-	
-        <div class="section-index">
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="../../docs/demos/multicluster_services_communication/">Multi-cluster services discovery &amp; communication</a>
-                    </h5>
-                    <p>Multi-cluster service communication using Flomesh Service Mesh</p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        <a href="../../docs/demos/multicluster_services_access_control/">Multi-cluster services access control</a>
-                    </h5>
-                    <p>Multi-cluster service access control</p>
-                </div>
-            
-        
-            
-        
-    
-</div>
+	<p>FSM offers an implementation of <a href="https://github.com/kubernetes-sigs/mcs-api" target="_blank" rel="noopener">Kubernetes Multi-Cluster Service API (MCS)</a> that depends on a service mesh and Ingress to provide service registration and discovery capabilities across k8s clusters. When using FSM as an MCS provider, it must be used in conjunction with <a href="https://github.com/flomesh-io/osm-edge" target="_blank" rel="noopener">osm-edge</a>, which provides east-west traffic flow capabilities, while FSM provides north-south traffic flow capabilities. FSM also provides the ability to register and discover services across clusters. In the MCS multi-cluster mode, FSM currently supports three traffic modes for Kubernetes clusters that join the ClusterSet: <code>Locality</code>, <code>Failover</code>, and <code>ActiveActive</code>.</p>
+<p>In the <code>Locality</code> mode, which is the default configuration, traffic is scheduled based on proximity within the local cluster or can be scheduled to a specific cluster based on topology.In the <code>ActiveActive</code> mode, the cluster provides the same traffic processing capabilities as service export (<code>ServiceExport</code>) using load balancing. In the <code>Failover</code> mode, the importing service (ServiceImport) cluster provides disaster recovery capabilities for the exporting service (ServiceExport) cluster. FSM&rsquo;s implementation does not require the underlying Kubernetes to use a special network and does not require a unified two-layer or three-layer network between the multi-cluster networks. Therefore, it is generally applicable to Kubernetes clusters of various types of networks.</p>
+<p>Refer to <a href="https://osm-edge-docs.flomesh.io/docs/guides/traffic_management/multi_cluster/" target="_blank" rel="noopener">osm-edge integration with FSM MCS guide &amp; demo</a></p>
+<h3 id="cluster-crd"><code>Cluster</code> CRD</h3>
+<p>When registering a cluster, we provide the following information.</p>
+<ul>
+<li>The address (e.g. <code>gatewayHost: cluster-A.host</code>) and port (e.g. <code>gatewayPort: 80</code>) of the cluster</li>
+<li><code>kubeconfig</code> to access the cluster, containing the api-server address and information such as the certificate and secret key</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">flomesh.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Cluster</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cluster-A</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">gatewayHost</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cluster-A.host</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">gatewayPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">80</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kubeconfig</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">|+</span><span style="color:#8f5902;font-style:italic">
+</span><span style="color:#8f5902;font-style:italic">    ---
+</span><span style="color:#8f5902;font-style:italic">    apiVersion: v1
+</span><span style="color:#8f5902;font-style:italic">    clusters:
+</span><span style="color:#8f5902;font-style:italic">    - cluster:
+</span><span style="color:#8f5902;font-style:italic">        certificate-authority-data:
+</span><span style="color:#8f5902;font-style:italic">        server: https://cluster-A.host:6443
+</span><span style="color:#8f5902;font-style:italic">      name: cluster-A
+</span><span style="color:#8f5902;font-style:italic">    contexts:
+</span><span style="color:#8f5902;font-style:italic">    - context:
+</span><span style="color:#8f5902;font-style:italic">        cluster: cluster-A
+</span><span style="color:#8f5902;font-style:italic">        user: admin@cluster-A
+</span><span style="color:#8f5902;font-style:italic">      name: cluster-A
+</span><span style="color:#8f5902;font-style:italic">    current-context: cluster-A
+</span><span style="color:#8f5902;font-style:italic">    kind: Config
+</span><span style="color:#8f5902;font-style:italic">    preferences: {}
+</span><span style="color:#8f5902;font-style:italic">    users:
+</span><span style="color:#8f5902;font-style:italic">    - name: admin@cluster-A
+</span><span style="color:#8f5902;font-style:italic">      user:
+</span><span style="color:#8f5902;font-style:italic">        client-certificate-data:
+</span><span style="color:#8f5902;font-style:italic">        client-key-data:</span><span style="color:#f8f8f8;text-decoration:underline">    
+</span></code></pre></div><h3 id="serviceexport-and-serviceimport-crd"><code>ServiceExport</code> and <code>ServiceImport</code> CRD</h3>
+<p>For cross-cluster service registration, FSM provides the <code>ServiceExport</code> and <code>ServiceImport</code> CRDs from <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api" target="_blank" rel="noopener">KEP-1645: Multi-Cluster Services API</a> for <code>ServiceExports.flomesh.io</code> and <code>ServiceImports.flomesh.io</code>. The former is used to register services with the control plane and declare that the application can provide services across clusters, while the latter is used to reference services from other clusters.</p>
+<p>For clusters <code>cluster-A</code> and <code>cluster-B</code> that join the cluster federation, a <code>Service</code> named <code>foo</code> exists under the namespace <code>bar</code> of cluster <code>cluster-A</code> and a <code>ServiceExport</code> <code>foo</code> of the same name is created under the same namespace. A <code>ServiceImport</code> resource with the same name is automatically created under the namespace <code>bar</code> of cluster <code>cluster-B</code> (if it does not exist, it is automatically created).</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000">// in cluster-A</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Service</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">foo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">bar</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#204a87;font-weight:bold">port</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">80</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">selector</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">foo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">flomesh.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ServiceExport</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">foo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">bar</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">// in cluster-B</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">flomesh.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ServiceImport</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">foo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">bar</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p>The YAML snippet above shows how to register the <code>foo</code> service to the control plane of a multi-cluster. In the following, we will walk through a slightly more complex scenario of cross-cluster service registration and traffic scheduling.</p>
+<p><img src="../../../docs/images/multicluster/service-exporting-importing.png" alt="service-exporting-importing"></p>
+<p>For detailed CRD reference, refer to <a href="../../../docs/api_reference/multicluster">Multicluster API Reference</a></p>
+<h2 id="demo">Demo</h2>
+<ul>
+<li><a href="../../../docs/demos/multicluster_services_communication">Multi-cluster services discovery &amp; communication</a></li>
+<li><a href="../../../docs/demos/multicluster_services_access_control">Multi-cluster services access control</a></li>
+</ul>
 
 	
 		<style>
@@ -499,6 +530,7 @@
 	
 </div>
 
+
           </main>
         </div>
       </div>
@@ -558,11 +590,11 @@
 
 
 
-<script src="../../js/main.min.4310a35a2022b0e5a24f13dcf99aa4ea745e3027f710beacfe22327da5d855c5.js" integrity="sha256-QxCjWiAisOWiTxPc&#43;Zqk6nReMCf3EL6s/iIyfaXYVcU=" crossorigin="anonymous"></script>
+<script src="../../../js/main.min.4310a35a2022b0e5a24f13dcf99aa4ea745e3027f710beacfe22327da5d855c5.js" integrity="sha256-QxCjWiAisOWiTxPc&#43;Zqk6nReMCf3EL6s/iIyfaXYVcU=" crossorigin="anonymous"></script>
 
 
 
-<script src='../../js/prism.js'></script>
+<script src='../../../js/prism.js'></script>
 
 
 

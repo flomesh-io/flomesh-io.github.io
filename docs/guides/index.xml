@@ -14,5 +14,172 @@
       
     
     
+    <item>
+      <title>Docs: Flomesh Service Loadbalancer</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/</guid>
+      <description>
+        
+        
+        &lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Service&lt;/a&gt; is a resource type in Kubernetes used to expose a group of Pod applications as a network service. Each Pod has its own IP, but this IP has the same lifespan as the Pod, which means that when the Pod is destroyed, the IP becomes invalid (it may also be allocated to other Pods). On the other hand, the IP &lt;code&gt;ClusterIP&lt;/code&gt; of the &lt;code&gt;Service&lt;/code&gt; does not change after creation. The &lt;code&gt;Service&lt;/code&gt; is associated with the Pod through means such as &lt;code&gt;userspace proxy&lt;/code&gt;, &lt;code&gt;iptables&lt;/code&gt;, and &lt;code&gt;ipvs proxy&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;LoadBalancer&lt;/code&gt; is one of four types of &lt;code&gt;Service&lt;/code&gt;, the others being &lt;code&gt;ClusterIP&lt;/code&gt;, &lt;code&gt;NodePort&lt;/code&gt;, and &lt;code&gt;ExternalName&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The operation of &lt;code&gt;LoadBalancer&lt;/code&gt; requires collaboration with a third-party load balancer. When we install the &lt;code&gt;Ingress controller&lt;/code&gt;, a &lt;code&gt;Service&lt;/code&gt; of type &lt;code&gt;LoadBalancer&lt;/code&gt; is created. The EXTERNAL-IP status of the newly created &lt;code&gt;Service&lt;/code&gt; is &lt;code&gt;pending&lt;/code&gt;, and if there is no load balancer, it will remain in the &lt;code&gt;pending&lt;/code&gt; state.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;NAME                          TYPE           CLUSTER-IP      EXTERNAL-IP   PORT&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;        AGE
+fsm-ingress-pipy-controller   LoadBalancer   10.43.188.208   &amp;lt;pending&amp;gt;     80:30508/TCP   8s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;FSM comes with a built-in Service Load Balancer (referred to as ServiceLB) that provides load balancing capabilities.&lt;/p&gt;
+&lt;h2 id=&#34;internals-of-servicelb&#34;&gt;Internals of ServiceLB&lt;/h2&gt;
+&lt;p&gt;How ServiceLB works can be understood by 2 bullet points below:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;At runtime, it listens for changes in the &lt;code&gt;Service&lt;/code&gt; in the cluster, and if the &lt;code&gt;Service&lt;/code&gt; type is &lt;code&gt;LoadBalancer&lt;/code&gt;, it creates a &lt;code&gt;Daemonset&lt;/code&gt; and inputs information such as the &lt;code&gt;ClusterIP&lt;/code&gt;, &lt;code&gt;Protocol&lt;/code&gt;, &lt;code&gt;Port&lt;/code&gt;, etc. of the &lt;code&gt;Service&lt;/code&gt;. The rest of the work is done by &lt;code&gt;Daemonset&lt;/code&gt; resource initated by ServiceLB.&lt;/li&gt;
+&lt;li&gt;When processing traffic, it uses the host port (which is the same as the &lt;code&gt;Service&lt;/code&gt; port number in &lt;code&gt;pod.spec.containers.ports.hostPort&lt;/code&gt;) to receive traffic and uses iptables to forward the received traffic to the &lt;code&gt;ClusterIP&lt;/code&gt; of the &lt;code&gt;Service&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/fsm-servicelb.png&#34; alt=&#34;fsm-servicelb&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;installation-and-usage&#34;&gt;Installation and Usage&lt;/h2&gt;
+&lt;p&gt;Using FSM ServiceLB is very simple, just provide the parameter &lt;code&gt;--set fsm.serviceLB.enabled=true&lt;/code&gt; during installation to enable ServiceLB.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;helm repo add fsm https://flomesh-io.github.io/fsm
+helm repo update
+
+helm install &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --namespace fsm &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --create-namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --set fsm.version&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;0.2.1-alpha.1 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --set fsm.serviceLB.enabled&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  fsm fsm/fsm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After FSM is installed and running, you can find the &lt;code&gt;Daemonset&lt;/code&gt; it created.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get ds -n fsm
+NAME                                         DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+svclb-fsm-ingress-pipy-controller-37e63610   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;         &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;         &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;       &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;           &amp;lt;none&amp;gt;          3m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;At the same time, you can see the assigned &lt;code&gt;EXTERNAL-IP&lt;/code&gt; on the ingress controller service.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get svc -n fsm -l app.kubernetes.io/component&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;controller
+NAME                          TYPE           CLUSTER-IP     EXTERNAL-IP   PORT&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;                      AGE
+fsm-ingress-pipy-controller   LoadBalancer   10.43.144.20   10.0.0.12     80:30508/TCP   4h10m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can access the application using the &lt;code&gt;EXTERNAL-IP&lt;/code&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Flomesh Egress Gateway</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/egress_gateway/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/egress_gateway/</guid>
+      <description>
+        
+        
+        &lt;p&gt;In a Kubernetes cluster, there are two common modes for applications to access external services: one mode is for each application to complete the network communication with external services independently; the other mode is through a unified egress gateway for relay.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/flomesh-io/fsm&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FSM&lt;/a&gt; is widely used to handle north-south traffic in Kubernetes, and besides providing management of ingress traffic, egress gateway is another feature of it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/fsm-egress-gateway.png&#34; alt=&#34;fsm-egress-gateway&#34;&gt;&lt;/p&gt;
+&lt;p&gt;When installing FSM, to enable the &lt;code&gt;Egress Gateway&lt;/code&gt; functionality, you need to set the parameter &lt;code&gt;--set fsm.egressGateway.enabled=true&lt;/code&gt;. More configuration parameters related to the Egress Gateway can be found here: &lt;a href=&#34;https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;helm repo add fsm https://charts.flomesh.io
+helm repo update
+
+helm install --namespace fsm --create-namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --set fsm.version&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;0.2.1-alpha.2 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --set fsm.egressGateway.enabled&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  fsm fsm/fsm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The connection between the application and the gateway has two modes, which can be set through the parameter &lt;code&gt;--set fsm.egressGateway.mode=xxx&lt;/code&gt; during installation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;http2tunnel&lt;/code&gt; uses &lt;strong&gt;HTTP/2&lt;/strong&gt; tunnel for communication and is the default mode&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sock5&lt;/code&gt; uses the &lt;strong&gt;SOCKS5&lt;/strong&gt; protocol for communication.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/HTTP_tunnel&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;HTTP Tunneling&lt;/a&gt; is a technique used to establish a network connection between two computers in cases where the connection is restricted by firewalls, NATs, ACLs, and other limitations. This tunnel is typically intermediated by a proxy server located in a DMZ.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;SOCKS is a network protocol that acts as an intermediary between a client and a server to facilitate communication between the two. It is primarily used to bypass network restrictions such as firewalls, NATs, and ACLs and typically operates at the session layer of the OSI model, between the presentation layer and the transport layer.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Flomesh Egress Gateway is often integrated with service mesh &lt;a href=&#34;https://github.com/flomesh-io/osm-edge&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;osm-edge&lt;/a&gt; to provide more intelligent and efficient outbound traffic management. For more information and integration guidance, please refer to &lt;a href=&#34;https://osm-edge-docs.flomesh.io/docs/guides/traffic_management/egress_gateway/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;osm-edge Egress Gateway usage guide&lt;/a&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Flomesh Multi-cluster API</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/multicluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/multicluster/</guid>
+      <description>
+        
+        
+        &lt;p&gt;FSM offers an implementation of &lt;a href=&#34;https://github.com/kubernetes-sigs/mcs-api&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Kubernetes Multi-Cluster Service API (MCS)&lt;/a&gt; that depends on a service mesh and Ingress to provide service registration and discovery capabilities across k8s clusters. When using FSM as an MCS provider, it must be used in conjunction with &lt;a href=&#34;https://github.com/flomesh-io/osm-edge&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;osm-edge&lt;/a&gt;, which provides east-west traffic flow capabilities, while FSM provides north-south traffic flow capabilities. FSM also provides the ability to register and discover services across clusters. In the MCS multi-cluster mode, FSM currently supports three traffic modes for Kubernetes clusters that join the ClusterSet: &lt;code&gt;Locality&lt;/code&gt;, &lt;code&gt;Failover&lt;/code&gt;, and &lt;code&gt;ActiveActive&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In the &lt;code&gt;Locality&lt;/code&gt; mode, which is the default configuration, traffic is scheduled based on proximity within the local cluster or can be scheduled to a specific cluster based on topology.In the &lt;code&gt;ActiveActive&lt;/code&gt; mode, the cluster provides the same traffic processing capabilities as service export (&lt;code&gt;ServiceExport&lt;/code&gt;) using load balancing. In the &lt;code&gt;Failover&lt;/code&gt; mode, the importing service (ServiceImport) cluster provides disaster recovery capabilities for the exporting service (ServiceExport) cluster. FSM&amp;rsquo;s implementation does not require the underlying Kubernetes to use a special network and does not require a unified two-layer or three-layer network between the multi-cluster networks. Therefore, it is generally applicable to Kubernetes clusters of various types of networks.&lt;/p&gt;
+&lt;p&gt;Refer to &lt;a href=&#34;https://osm-edge-docs.flomesh.io/docs/guides/traffic_management/multi_cluster/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;osm-edge integration with FSM MCS guide &amp;amp; demo&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;cluster-crd&#34;&gt;&lt;code&gt;Cluster&lt;/code&gt; CRD&lt;/h3&gt;
+&lt;p&gt;When registering a cluster, we provide the following information.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The address (e.g. &lt;code&gt;gatewayHost: cluster-A.host&lt;/code&gt;) and port (e.g. &lt;code&gt;gatewayPort: 80&lt;/code&gt;) of the cluster&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kubeconfig&lt;/code&gt; to access the cluster, containing the api-server address and information such as the certificate and secret key&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;flomesh.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Cluster&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;cluster-A&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;gatewayHost&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;cluster-A.host&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;gatewayPort&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kubeconfig&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    ---
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    clusters:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    - cluster:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        certificate-authority-data:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        server: https://cluster-A.host:6443
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;      name: cluster-A
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    contexts:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    - context:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        cluster: cluster-A
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        user: admin@cluster-A
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;      name: cluster-A
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    current-context: cluster-A
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    kind: Config
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    preferences: {}
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    users:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;    - name: admin@cluster-A
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;      user:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        client-certificate-data:
+&lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        client-key-data:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;serviceexport-and-serviceimport-crd&#34;&gt;&lt;code&gt;ServiceExport&lt;/code&gt; and &lt;code&gt;ServiceImport&lt;/code&gt; CRD&lt;/h3&gt;
+&lt;p&gt;For cross-cluster service registration, FSM provides the &lt;code&gt;ServiceExport&lt;/code&gt; and &lt;code&gt;ServiceImport&lt;/code&gt; CRDs from &lt;a href=&#34;https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;KEP-1645: Multi-Cluster Services API&lt;/a&gt; for &lt;code&gt;ServiceExports.flomesh.io&lt;/code&gt; and &lt;code&gt;ServiceImports.flomesh.io&lt;/code&gt;. The former is used to register services with the control plane and declare that the application can provide services across clusters, while the latter is used to reference services from other clusters.&lt;/p&gt;
+&lt;p&gt;For clusters &lt;code&gt;cluster-A&lt;/code&gt; and &lt;code&gt;cluster-B&lt;/code&gt; that join the cluster federation, a &lt;code&gt;Service&lt;/code&gt; named &lt;code&gt;foo&lt;/code&gt; exists under the namespace &lt;code&gt;bar&lt;/code&gt; of cluster &lt;code&gt;cluster-A&lt;/code&gt; and a &lt;code&gt;ServiceExport&lt;/code&gt; &lt;code&gt;foo&lt;/code&gt; of the same name is created under the same namespace. A &lt;code&gt;ServiceImport&lt;/code&gt; resource with the same name is automatically created under the namespace &lt;code&gt;bar&lt;/code&gt; of cluster &lt;code&gt;cluster-B&lt;/code&gt; (if it does not exist, it is automatically created).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;// in cluster-A&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;v1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Service&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;bar&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ports&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;port&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;selector&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;flomesh.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ServiceExport&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;bar&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;// in cluster-B&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;flomesh.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ServiceImport&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;foo&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;bar&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The YAML snippet above shows how to register the &lt;code&gt;foo&lt;/code&gt; service to the control plane of a multi-cluster. In the following, we will walk through a slightly more complex scenario of cross-cluster service registration and traffic scheduling.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/multicluster/service-exporting-importing.png&#34; alt=&#34;service-exporting-importing&#34;&gt;&lt;/p&gt;
+&lt;p&gt;For detailed CRD reference, refer to &lt;a href=&#34;../../docs/api_reference/multicluster&#34;&gt;Multicluster API Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;demo&#34;&gt;Demo&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../docs/demos/multicluster_services_communication&#34;&gt;Multi-cluster services discovery &amp;amp; communication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../../docs/demos/multicluster_services_access_control&#34;&gt;Multi-cluster services access control&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>

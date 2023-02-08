@@ -14,5 +14,937 @@
       
     
     
+    <item>
+      <title>Docs: Multi-cluster services discovery &amp; communication</title>
+      <link>https://fsm-docs.flomesh.io/docs/demos/multicluster_services_communication/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/demos/multicluster_services_communication/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;demo-architecture&#34;&gt;Demo Architecture&lt;/h2&gt;
+&lt;p&gt;For demonstration purposes we will be creating 4 Kubernetes clusters and high-level architecture will look something like the below:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/multicluster/mcs-svc-comm-arch.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;As a convention and for this demo we will be creating a separate stand-alone cluster to serve as a &lt;strong&gt;control plane&lt;/strong&gt; cluster, but that isn&amp;rsquo;t strictly required as a separate cluster and it could be one of any existing cluster.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;pre-requisites&#34;&gt;Pre-requisites&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;kubectx&lt;/code&gt;: for switching between multiple &lt;code&gt;kubeconfig contexts&lt;/code&gt; (clusters)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;k3d&lt;/code&gt;: for creating multiple &lt;code&gt;k3s&lt;/code&gt; clusters locally using containers&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;helm&lt;/code&gt;: for deploying &lt;code&gt;FSM&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;docker&lt;/code&gt;: required to run &lt;code&gt;k3d&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Have &lt;code&gt;osm&lt;/code&gt; CLI available for managing the service mesh.&lt;/li&gt;
+&lt;li&gt;OSM version &amp;gt;= v1.2.0.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;demo-clusters--environment-setup&#34;&gt;Demo clusters &amp;amp; environment setup&lt;/h3&gt;
+&lt;p&gt;In this demo, we will be using &lt;a href=&#34;https://k3d.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;k3d&lt;/a&gt; a lightweight wrapper to run &lt;a href=&#34;https://github.com/rancher/k3s&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;k3s&lt;/a&gt; (Rancher Lab’s minimal Kubernetes distribution) in docker, to create 4 separate clusters named &lt;code&gt;control-plane&lt;/code&gt;, &lt;code&gt;cluster-1&lt;/code&gt;, &lt;code&gt;cluster-2&lt;/code&gt;, and &lt;code&gt;cluster-3&lt;/code&gt; respectively.&lt;/p&gt;
+&lt;p&gt;We will be using the HOST machine IP address and separate ports during the installation, for us to easily access the individual clusters. My demo host machine IP address is &lt;code&gt;192.168.1.110&lt;/code&gt; (it might be different for your machine).&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;cluster&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;cluster ip&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;api-server port&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;LB external-port&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;control-plane&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;HOST_IP(192.168.1.110)&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;6444&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;N/A&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;control-plane cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cluster-1&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;HOST_IP(192.168.1.110)&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;6445&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;81&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;application-cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cluster-2&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;HOST_IP(192.168.1.110)&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;6446&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;82&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Application Cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cluster-3&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;HOST_IP(192.168.1.110)&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;6447&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;83&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Application Cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;network&#34;&gt;Network&lt;/h3&gt;
+&lt;p&gt;Creates a docker &lt;code&gt;bridge&lt;/code&gt; type network named &lt;code&gt;multi-clusters&lt;/code&gt;, which run all containers.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;docker network create multi-clusters
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Find your machine host IP address, mine is &lt;code&gt;192.168.1.110&lt;/code&gt;, and export that as an environment variable to be used later.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;HOST_IP&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;192.168.1.110
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;cluster-creation&#34;&gt;Cluster creation&lt;/h3&gt;
+&lt;p&gt;We are going to use &lt;code&gt;k3d&lt;/code&gt; to create 4 clusters.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;API_PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;6444&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#6444 6445 6446 6447&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt; &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#81 82 83&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in control-plane cluster-1 cluster-2 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  k3d cluster create &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --image docker.io/rancher/k3s:v1.23.8-k3s2 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --api-port &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST_IP&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;API_PORT&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --port &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;API_PORT&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;:6443@server:0&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --port &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;:80@server:0&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --servers-memory 4g &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --k3s-arg &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;--disable=traefik@server:0&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --network multi-clusters &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout 120s &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --wait
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;((&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;API_PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;API_PORT+1&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;))&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;((&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;PORT+1&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;))&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;install-fsm&#34;&gt;Install FSM&lt;/h3&gt;
+&lt;p&gt;Install FSM to newly created 4 clusters.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;helm repo update
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;FSM_NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;flomesh
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;FSM_VERSION&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;0.2.0-alpha.9
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in control-plane cluster-1 cluster-2 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt; 
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;
+  helm install --namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;FSM_NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --create-namespace --version&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;FSM_VERSION&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --set fsm.logLevel&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;5&lt;/span&gt; fsm fsm/fsm
+  sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;
+  kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod --all -n &lt;span style=&#34;color:#000&#34;&gt;$FSM_NAMESPACE&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We have our clusters ready, now we need to federate them together, but before we do that, let&amp;rsquo;s first understand the mechanics on how FSM is configured.&lt;/p&gt;
+&lt;h3 id=&#34;federate-clusters&#34;&gt;Federate clusters&lt;/h3&gt;
+&lt;p&gt;We will enroll clusters &lt;code&gt;cluster-1&lt;/code&gt;, &lt;code&gt;cluster-2&lt;/code&gt;, and &lt;code&gt;cluster-3&lt;/code&gt; into the management of  &lt;code&gt;control-plane&lt;/code&gt; cluster.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;HOST_IP&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;192.168.1.110
+kubectx k3d-control-plane
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;81&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in cluster-1 cluster-2 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  cat &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: ${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  gatewayHost: ${HOST_IP}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  gatewayPort: ${PORT}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  kubeconfig: |+
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;`k3d kubeconfig get ${CLUSTER_NAME} | sed &amp;#39;s|^|    |g&amp;#39; | sed &amp;#34;s|0.0.0.0|$HOST_IP|g&amp;#34;`
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;((&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;PORT+1&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;))&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;install-osm-edge-service-mesh&#34;&gt;Install osm-edge Service Mesh&lt;/h3&gt;
+&lt;p&gt;Download osm CLI&lt;/p&gt;
+&lt;p&gt;Install the service mesh osm-edge to the clusters &lt;code&gt;cluster-1&lt;/code&gt;, &lt;code&gt;cluster-2&lt;/code&gt;, and &lt;code&gt;cluster-3&lt;/code&gt;. The control plane does not handle application traffic and does not need to be installed.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;OSM_NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm-system
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;OSM_MESH_NAME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in cluster-1 cluster-2 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#000&#34;&gt;DNS_SVC_IP&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get svc -n kube-system -l k8s-app&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;kube-dns -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.items[0].spec.clusterIP}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+osm install &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --mesh-name &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$OSM_MESH_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --osm-namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$OSM_NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --set&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm.certificateProvider.kind&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;tresor &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --set&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm.image.pullPolicy&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Always &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --set&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm.sidecarLogLevel&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;error &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --set&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm.controllerLogLevel&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;warn &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;900s &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --set&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm.localDNSProxy.enable&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --set&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm.localDNSProxy.primaryUpstreamDNSServerIPAddr&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;DNS_SVC_IP&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-demo-application&#34;&gt;Deploy Demo application&lt;/h2&gt;
+&lt;h3 id=&#34;deploying-mesh-managed-applications&#34;&gt;Deploying mesh-managed applications&lt;/h3&gt;
+&lt;p&gt;Deploy the &lt;code&gt;httpbin&lt;/code&gt; application under the &lt;code&gt;httpbin&lt;/code&gt; namespace of clusters &lt;code&gt;cluster-1&lt;/code&gt; and &lt;code&gt;cluster-3&lt;/code&gt; (which are managed by the mesh and will inject sidecar). Here the &lt;code&gt;httpbin&lt;/code&gt; application is implemented by &lt;a href=&#34;https://flomesh.io/pipy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pipy&lt;/a&gt; and will return the current cluster name.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;httpbin
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in cluster-1 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  kubectl create namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  osm namespace add &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  kubectl apply -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          image: flomesh/pipy:latest
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - containerPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          command:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - -e
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              pipy()
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .listen(8080)
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .serveHTTP(new Message(&amp;#39;Hi, I am from ${CLUSTER_NAME} and controlled by mesh!\n&amp;#39;))
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+
+  sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+  kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --all --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;60s
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deploy the &lt;code&gt;curl&lt;/code&gt; application under the namespace &lt;code&gt;curl&lt;/code&gt; in cluster &lt;code&gt;cluster-2&lt;/code&gt;, which is managed by the mesh.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;curl
+kubectx k3d-cluster-2
+kubectl create namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+osm namespace add &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+kubectl apply -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    service: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - name: http
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      port: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      serviceAccountName: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - image: curlimages/curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        imagePullPolicy: IfNotPresent
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        command: [&amp;#34;sleep&amp;#34;, &amp;#34;365d&amp;#34;]
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --all --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;60s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;export-service&#34;&gt;Export Service&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s export services in &lt;code&gt;cluster-1&lt;/code&gt; and &lt;code&gt;cluster-3&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE_MESH&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;httpbin
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in cluster-1 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceExport
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: ${NAMESPACE_MESH}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  serviceAccountName: &amp;#34;*&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - portNumber: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      path: &amp;#34;/${CLUSTER_NAME}/httpbin-mesh&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      pathType: Prefix
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceExport
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: ${NAMESPACE_MESH}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  serviceAccountName: &amp;#34;*&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - portNumber: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      path: &amp;#34;/${CLUSTER_NAME}/httpbin-mesh-${CLUSTER_NAME}&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      pathType: Prefix
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After exporting the services, FSM will automatically create Ingress rules for them, and with the rules, you can access these services through Ingress.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME_INDEX in &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  &lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;cluster-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME_INDEX&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;((&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;80+CLUSTER_NAME_INDEX&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;))&lt;/span&gt;
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Getting service exported in cluster &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;-----------------------------------&amp;#39;&lt;/span&gt;
+  kubectl get serviceexports.flomesh.io -A
+  &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;-----------------------------------&amp;#39;&lt;/span&gt;
+  curl -s &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;http://&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST_IP&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/httpbin-mesh&amp;#34;&lt;/span&gt;
+  curl -s &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;http://&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST_IP&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PORT&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/httpbin-mesh-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;-----------------------------------&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To view one of the &lt;code&gt;ServiceExports&lt;/code&gt; resources.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl get serviceexports httpbin -n httpbin -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec}&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq
+
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;loadBalancer&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;RoundRobinLoadBalancer&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;rules&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/cluster-3/httpbin-mesh&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;pathType&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Prefix&amp;#34;&lt;/span&gt;,
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;portNumber&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;8080&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;,
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;serviceAccountName&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The exported services can be imported into other managed clusters. For example, if we look at the cluster &lt;code&gt;cluster-2&lt;/code&gt;, we can have multiple services imported.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectx k3d-cluster-2
+kubectl get serviceimports -A
+
+NAMESPACE   NAME                AGE
+httpbin     httpbin-cluster-1   13m
+httpbin     httpbin-cluster-3   13m
+httpbin     httpbin             13m
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;testing&#34;&gt;Testing&lt;/h3&gt;
+&lt;p&gt;Staying in the &lt;code&gt;cluster-2&lt;/code&gt; cluster (&lt;code&gt;kubectx k3d-cluster-2&lt;/code&gt;), we test if we can access these imported services from the &lt;code&gt;curl&lt;/code&gt; application in the mesh.&lt;/p&gt;
+&lt;p&gt;Get the pod of the &lt;code&gt;curl&lt;/code&gt; application, from which we will later launch requests to simulate service access.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get pod -n curl -l &lt;span style=&#34;color:#000&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;curl -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.items[0].metadata.name}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;At this point you will find that it is not accessible.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+
+&lt;span style=&#34;color:#204a87&#34;&gt;command&lt;/span&gt; terminated with &lt;span style=&#34;color:#204a87&#34;&gt;exit&lt;/span&gt; code &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;7&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Note that this is normal, by default no other cluster instance will be used to respond to requests, which means no calls to other clusters will be made by default. So how to access it, then we need to be clear about the global traffic policy &lt;code&gt;GlobalTrafficPolicy&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;global-traffic-policy&#34;&gt;Global Traffic Policy&lt;/h2&gt;
+&lt;p&gt;Note that all global traffic policies are set on the user&amp;rsquo;s side, so this demo is about setting global traffic policies on the cluster &lt;code&gt;cluster-2&lt;/code&gt; side. So before you start, switch to cluster &lt;code&gt;cluster-2&lt;/code&gt;: &lt;code&gt;kubectx k3d-cluster-2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The global traffic policy is set via CRD &lt;code&gt;GlobalTrafficPolicy&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;GlobalTrafficPolicy&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;  
+   &lt;span style=&#34;color:#000&#34;&gt;metav1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;TypeMeta&lt;/span&gt;   &lt;span style=&#34;color:#4e9a06&#34;&gt;`json:&amp;#34;,inline&amp;#34;`&lt;/span&gt;  
+   &lt;span style=&#34;color:#000&#34;&gt;metav1&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ObjectMeta&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;`json:&amp;#34;metadata,omitempty&amp;#34;`&lt;/span&gt;  
+  
+   &lt;span style=&#34;color:#000&#34;&gt;Spec&lt;/span&gt;   &lt;span style=&#34;color:#000&#34;&gt;GlobalTrafficPolicySpec&lt;/span&gt;   &lt;span style=&#34;color:#4e9a06&#34;&gt;`json:&amp;#34;spec,omitempty&amp;#34;`&lt;/span&gt;  
+   &lt;span style=&#34;color:#000&#34;&gt;Status&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;GlobalTrafficPolicyStatus&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;`json:&amp;#34;status,omitempty&amp;#34;`&lt;/span&gt;  
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;GlobalTrafficPolicySpec&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;{&lt;/span&gt;  
+   &lt;span style=&#34;color:#000&#34;&gt;LbType&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LoadBalancerType&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;`json:&amp;#34;lbType&amp;#34;`&lt;/span&gt;  
+   &lt;span style=&#34;color:#000&#34;&gt;LoadBalanceTarget&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;[]&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;TrafficTarget&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;`json:&amp;#34;targets&amp;#34;`&lt;/span&gt;  
+&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Global load balancing types &lt;code&gt;.spec.lbType&lt;/code&gt; There are three types.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Locality&lt;/code&gt;: uses only the services of this cluster, and is also the default type. This is why accessing the &lt;code&gt;httpbin&lt;/code&gt; application fails when we don&amp;rsquo;t provide any global policy, because there is no such service in cluster &lt;code&gt;cluster-2&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FailOver&lt;/code&gt;: proxies to other clusters only when access to this cluster fails, which is often referred to as failover, similar to primary backup.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ActiveActive&lt;/code&gt;: Proxy to other clusters under normal conditions, similar to multi-live.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;code&gt;FailOver&lt;/code&gt; and &lt;code&gt;ActiveActive&lt;/code&gt; policies are used with the &lt;em&gt;targets&lt;/em&gt; field to specify the id of the standby cluster, which is the cluster that can be routed to in case of failure or load balancing. ** For example, if you look at the import service &lt;code&gt;httpbin/httpbin&lt;/code&gt; in cluster &lt;code&gt;cluster-2&lt;/code&gt;, you can see that it has two &lt;code&gt;endpoints&lt;/code&gt; for the outer cluster, note that &lt;code&gt;endpoints&lt;/code&gt; here is a different concept than the native &lt;code&gt;endpoints.v1&lt;/code&gt; and will contain more information. In addition, there is the cluster id &lt;code&gt;clusterKey&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get serviceimports httpbin -n httpbin -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec}&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq
+
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ports&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;endpoints&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;clusterKey&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;default/default/default/cluster-1&amp;#34;&lt;/span&gt;,
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;target&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ip&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/cluster-1/httpbin-mesh&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;81&lt;/span&gt;
+          &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;,
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;clusterKey&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;default/default/default/cluster-3&amp;#34;&lt;/span&gt;,
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;target&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ip&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/cluster-3/httpbin-mesh&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;83&lt;/span&gt;
+          &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+      &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;,
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: 8080,
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;protocol&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;TCP&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;,
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;serviceAccountName&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ClusterSetIP&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;routing-type---locality&#34;&gt;Routing Type - &lt;code&gt;Locality&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;The default routing type is &lt;code&gt;Locality&lt;/code&gt;, and as tested above, traffic cannot be dispatched to other clusters.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+&lt;span style=&#34;color:#204a87&#34;&gt;command&lt;/span&gt; terminated with &lt;span style=&#34;color:#204a87&#34;&gt;exit&lt;/span&gt; code &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;7&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;routing-type---failover&#34;&gt;Routing Type - &lt;code&gt;FailOver&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Since setting a global traffic policy for causes access failure, we start by enabling &lt;code&gt;FailOver&lt;/code&gt; mode. &lt;strong&gt;Note that the global policy traffic, to be consistent with the target service name and namespace.&lt;/strong&gt; For example, if we want to access &lt;code&gt;http://httpbin.httpbin:8080/&lt;/code&gt;, we need to create &lt;code&gt;GlobalTrafficPolicy&lt;/code&gt; resource named &lt;code&gt;httpbin&lt;/code&gt; under the namespace &lt;code&gt;httpbin&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -n httpbin -f  - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: GlobalTrafficPolicy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  lbType: FailOver
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  targets:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - clusterKey: default/default/default/cluster-1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - clusterKey: default/default/default/cluster-3
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After setting the policy, let&amp;rsquo;s try it again by requesting.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+Hi, I am from cluster-1!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The request is successful and the request is proxied to the service in cluster &lt;code&gt;cluster-1&lt;/code&gt;. Another request is made, and it is proxied to cluster &lt;code&gt;cluster-3&lt;/code&gt;, as expected for load balancing.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+Hi, I am from cluster-3!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;What will happen if we deploy the application &lt;code&gt;httpbin&lt;/code&gt; in the namespace &lt;code&gt;httpbin&lt;/code&gt; of the cluster &lt;code&gt;cluster-2&lt;/code&gt;?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;httpbin
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;cluster-2
+
+kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+kubectl create namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+osm namespace add &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+kubectl apply -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          image: flomesh/pipy:latest
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - containerPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          command:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - -e
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              pipy()
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .listen(8080)
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .serveHTTP(new Message(&amp;#39;Hi, I am from ${CLUSTER_NAME}!\n&amp;#39;))
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --all --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;60s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After the application is running normally, this time we send the request to test again. From the results, it looks like the request is processed in the current cluster.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/ 
+Hi, I am from cluster-2!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Even if the request is repeated multiple times, it will always return &lt;code&gt;Hi, I am from cluster-2!&lt;/code&gt;, which indicates that the services of same cluster are used in preference to the services imported from other clusters.&lt;/p&gt;
+&lt;p&gt;In some cases, we also want other clusters to participate in the service as well, because the resources of other clusters are wasted if only the services of this cluster are used. This is where the &lt;code&gt;ActiveActive&lt;/code&gt; routing type comes into play.&lt;/p&gt;
+&lt;h3 id=&#34;routing-type---activeactive&#34;&gt;Routing Type - &lt;code&gt;ActiveActive&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;Moving on from the status above, let&amp;rsquo;s test the &lt;code&gt;ActiveActive&lt;/code&gt; type by modifying the policy created earlier and updating it to &lt;code&gt;ActiveActive&lt;/code&gt;: `ActiveActive&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -n httpbin -f  - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: GlobalTrafficPolicy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  lbType: ActiveActive
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  targets:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - clusterKey: default/default/default/cluster-1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - clusterKey: default/default/default/cluster-3
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Multiple requests will show that &lt;code&gt;httpbin&lt;/code&gt; from all three clusters will participate in the service. This indicates that the load is being proxied to multiple clusters in a balanced manner.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+Hi, I am from cluster-1 and controlled by mesh!
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+Hi, I am from cluster-2!
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+Hi, I am from cluster-3 and controlled by mesh!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Multi-cluster services access control</title>
+      <link>https://fsm-docs.flomesh.io/docs/demos/multicluster_services_access_control/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/demos/multicluster_services_access_control/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;pre-requisites&#34;&gt;Pre-requisites&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Tools and clusters created in demo &lt;a href=&#34;../../docs/demos/multicluster_services_communication&#34;&gt;Multi-cluster services discovery &amp;amp; communication&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This guide will expand on the knowledge we covered in previous guides and demonstrate how to configure and enable cross-cluster access control based on SMI. With osm-edge support for multi-clusters, users can define and enforce fine-grained access policies for services running across multiple Kubernetes clusters. This allows users to easily and securely manage access to services and resources, ensuring that only authorized users and applications have access to the appropriate services and resources.&lt;/p&gt;
+&lt;p&gt;Before we start, let&amp;rsquo;s review the &lt;a href=&#34;https://github.com/servicemeshinterface/smi-spec/blob/main/apis/traffic-access/v1alpha3/traffic-access.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;SMI Access Control Specification&lt;/a&gt;. There are two forms of &lt;a href=&#34;../../docs/getting_started/traffic_policies/&#34;&gt;traffic policies&lt;/a&gt;: &lt;strong&gt;Permissive Mode&lt;/strong&gt; and &lt;strong&gt;Traffic Policy Mode&lt;/strong&gt;. The former allows services in the mesh to access each other, while the latter requires the provision of the appropriate traffic policy to be accessible.&lt;/p&gt;
+&lt;h2 id=&#34;smi-access-control-policy&#34;&gt;SMI Access Control Policy&lt;/h2&gt;
+&lt;p&gt;In traffic policy mode, SMI defines &lt;code&gt;ServiceAccount&lt;/code&gt;-based access control through the Kubernetes Custom Resource Definition(CRD) &lt;code&gt;TrafficTarget&lt;/code&gt;, which defines traffic sources (&lt;code&gt;sources&lt;/code&gt;), destinations (&lt;code&gt;destinations&lt;/code&gt;), and rules (&lt;code&gt;rules&lt;/code&gt;). What is expressed is that applications that use the &lt;code&gt;ServiceAccount&lt;/code&gt; specified in &lt;code&gt;sources&lt;/code&gt; can access applications that have the &lt;code&gt;ServiceAccount&lt;/code&gt; specified in &lt;code&gt;destinations&lt;/code&gt;, and the accessible traffic is specified by &lt;code&gt;rules&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example, the following example represents a load running with &lt;code&gt;ServiceAccount&lt;/code&gt; &lt;code&gt;promethues&lt;/code&gt; sending a &lt;code&gt;GET&lt;/code&gt; request to the &lt;code&gt;/metrics&lt;/code&gt; endpoint of a load running with &lt;code&gt;ServiceAccount&lt;/code&gt; &lt;code&gt;service-a&lt;/code&gt;. The &lt;code&gt;HTTPRouteGroup&lt;/code&gt; defines the identity of the traffic: i.e. the &lt;code&gt;GET&lt;/code&gt; request to access the endpoint &lt;code&gt;/metrics&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HTTPRouteGroup&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;the-routes&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;matches&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;metrics&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;pathRegex&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/metrics&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;methods&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#000&#34;&gt;GET&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;---&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;TrafficTarget&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;path-specific&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;default&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;destination&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ServiceAccount&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;service-a&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;default&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;rules&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HTTPRouteGroup&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;the-routes&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;matches&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#000&#34;&gt;metrics&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;sources&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ServiceAccount&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prometheus&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;default&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So how does access control perform in a multi-cluster?&lt;/p&gt;
+&lt;h3 id=&#34;fsms-serviceexport&#34;&gt;FSM&amp;rsquo;s &lt;code&gt;ServiceExport&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;FSM&amp;rsquo;s &lt;code&gt;ServiceExport&lt;/code&gt; is used to export services to other clusters, which is the process of service registration. The field &lt;code&gt;spec.serviceAccountName&lt;/code&gt; of &lt;code&gt;ServiceExport&lt;/code&gt; can be used to specify the &lt;code&gt;ServiceAccount&lt;/code&gt; used for the service load.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;flomesh.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ServiceExport&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;httpbin&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;httpbin&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;serviceAccountName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;rules&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;portNumber&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;path&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/cluster-1/httpbin-mesh&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;pathType&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Prefix&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/multicluster/mcs-access-control.png&#34; alt=&#34;mcs-access-control&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;deploy-the-sample-application&#34;&gt;Deploy the sample application&lt;/h3&gt;
+&lt;p&gt;Deploy the &lt;code&gt;httpbin&lt;/code&gt; application under the &lt;code&gt;httpbin&lt;/code&gt; namespace (managed by the mesh, which injects sidecar) in clusters &lt;code&gt;cluster-1&lt;/code&gt; and &lt;code&gt;cluster-3&lt;/code&gt;. Here we specify &lt;code&gt;ServiceAccount&lt;/code&gt; as &lt;code&gt;httpbin&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;httpbin
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in cluster-1 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  kubectl create namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  osm namespace add &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  kubectl apply -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---  
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      serviceAccountName: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          image: flomesh/pipy:latest
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - containerPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          command:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - -e
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              pipy()
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .listen(8080)
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .serveHTTP(new Message(&amp;#39;Hi, I am from ${CLUSTER_NAME} and controlled by mesh!\n&amp;#39;))
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+
+  sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+  kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --all --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;60s
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deploy the &lt;code&gt;httpbin&lt;/code&gt; application under the &lt;code&gt;cluster-2&lt;/code&gt; namespace &lt;code&gt;httpbin&lt;/code&gt;, but do not specify a &lt;code&gt;ServiceAccount&lt;/code&gt; and use the default &lt;code&gt;ServiceAccount&lt;/code&gt; &lt;code&gt;default&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;httpbin
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;cluster-2
+
+kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+kubectl create namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+osm namespace add &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+kubectl apply -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          image: flomesh/pipy:latest
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - containerPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          command:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - -e
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              pipy()
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .listen(8080)
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              .serveHTTP(new Message(&amp;#39;Hi, I am from ${CLUSTER_NAME}! and controlled by mesh!\n&amp;#39;))
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - port: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      targetPort: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: TCP
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: pipy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --all --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;60s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deploy the &lt;code&gt;curl&lt;/code&gt; application under the namespace &lt;code&gt;curl&lt;/code&gt; in cluster &lt;code&gt;cluster-2&lt;/code&gt;, which is managed by the mesh, and the injected sidecar will be fully traffic dispatched across the cluster. Specify here to use &lt;code&gt;ServiceAccout&lt;/code&gt; &lt;code&gt;curl&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;curl
+kubectx k3d-cluster-2
+kubectl create namespace &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+osm namespace add &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+kubectl apply -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    service: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - name: http
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      port: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      serviceAccountName: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - image: curlimages/curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        imagePullPolicy: IfNotPresent
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        command: [&amp;#34;sleep&amp;#34;, &amp;#34;365d&amp;#34;]
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;ready pod -n &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NAMESPACE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; --all --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;60s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;export-service&#34;&gt;Export service&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NAMESPACE_MESH&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;httpbin
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;for&lt;/span&gt; CLUSTER_NAME in cluster-1 cluster-3
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;do&lt;/span&gt;
+  kubectx k3d-&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;CLUSTER_NAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+  kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceExport
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: ${NAMESPACE_MESH}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  serviceAccountName: &amp;#34;httpbin&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - portNumber: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      path: &amp;#34;/${CLUSTER_NAME}/httpbin-mesh&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      pathType: Prefix
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ServiceExport
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: ${NAMESPACE_MESH}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-${CLUSTER_NAME}
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  serviceAccountName: &amp;#34;httpbin&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - portNumber: 8080
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      path: &amp;#34;/${CLUSTER_NAME}/httpbin-mesh-${CLUSTER_NAME}&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      pathType: Prefix
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+sleep &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;test&#34;&gt;Test&lt;/h3&gt;
+&lt;p&gt;We switch back to the cluster &lt;code&gt;cluster-2&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectx k3d-cluster-2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The default route type is &lt;code&gt;Locality&lt;/code&gt; and we need to create an &lt;code&gt;ActiveActive&lt;/code&gt; policy to allow requests to be processed using service instances from other clusters.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl apply -n httpbin -f  - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: flomesh.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: GlobalTrafficPolicy
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  lbType: ActiveActive
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  targets:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - clusterKey: default/default/default/cluster-1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - clusterKey: default/default/default/cluster-3
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the &lt;code&gt;curl&lt;/code&gt; application of the &lt;code&gt;cluster-2&lt;/code&gt; cluster, we send a request to &lt;code&gt;httpbin.httpbin&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get pod -n curl -l &lt;span style=&#34;color:#000&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;curl -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.items[0].metadata.name}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+
+kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A few more requests will see the following response.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Hi, I am from cluster-1 and controlled by mesh!
+Hi, I am from cluster-2 and controlled by mesh!
+Hi, I am from cluster-3 and controlled by mesh!
+Hi, I am from cluster-1 and controlled by mesh!
+Hi, I am from cluster-2 and controlled by mesh!
+Hi, I am from cluster-3 and controlled by mesh!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;demo&#34;&gt;Demo&lt;/h2&gt;
+&lt;h3 id=&#34;adjusting-the-traffic-policy-mode&#34;&gt;Adjusting the traffic policy mode&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s adjust the traffic policy mode of cluster &lt;code&gt;cluster-2&lt;/code&gt; so that the traffic policy can be applied.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectx k3d-cluster-2
+&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;osm_namespace&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;osm-system
+kubectl patch meshconfig osm-mesh-config -n &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$osm_namespace&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -p &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;traffic&amp;#34;:{&amp;#34;enablePermissiveTrafficPolicyMode&amp;#34;:false}}}&amp;#39;&lt;/span&gt; --type&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;merge
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In this case, if you try to send the request again, you will find that the request fails. This is because in traffic policy mode, inter-application access is prohibited if no policy is configured.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;curl_client&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; -n curl -c curl -- curl -s http://httpbin.httpbin:8080/
+&lt;span style=&#34;color:#204a87&#34;&gt;command&lt;/span&gt; terminated with &lt;span style=&#34;color:#204a87&#34;&gt;exit&lt;/span&gt; code &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;52&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;application-access-control-policy&#34;&gt;Application Access Control Policy&lt;/h3&gt;
+&lt;p&gt;The access control policy of SMI is based on &lt;code&gt;ServiceAccount&lt;/code&gt; as mentioned at the beginning of the guide, that&amp;rsquo;s why our deployed &lt;code&gt;httpbin&lt;/code&gt; service uses different &lt;code&gt;ServiceAccount&lt;/code&gt; in cluster &lt;code&gt;cluster-1&lt;/code&gt;, &lt;code&gt;cluster-3&lt;/code&gt;, and cluster &lt;code&gt;cluster-2&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cluster-1：&lt;code&gt;httpbin&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;cluster-2：&lt;code&gt;default&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;cluster-3：&lt;code&gt;httpbin&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Next, we will set different access control policies &lt;code&gt;TrafficTarget&lt;/code&gt; for in-cluster and out-of-cluster services, differentiated by the &lt;code&gt;ServiceAccount&lt;/code&gt; of the target load in &lt;code&gt;TrafficTarget&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/multicluster/fsm-multi-cluster-with-policy.png&#34; alt=&#34;fsm-multi-cluster-with-policy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Execute the following command to create a traffic policy &lt;code&gt;curl-to-httpbin&lt;/code&gt; that allows &lt;code&gt;curl&lt;/code&gt; to access loads under the namespace &lt;code&gt;httpbin&lt;/code&gt; that uses &lt;code&gt;ServiceAccount&lt;/code&gt; &lt;code&gt;default&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl apply -n httpbin -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: specs.smi-spec.io/v1alpha4
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: HTTPRouteGroup
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: httpbin-route
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  matches:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - name: all
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    pathRegex: &amp;#34;/&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    methods:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - GET
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: TrafficTarget
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: access.smi-spec.io/v1alpha3
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl-to-httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  destination:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: default
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    namespace: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - kind: HTTPRouteGroup
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: httpbin-route
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matches:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - all
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  sources:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    namespace: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Multiple request attempts are sent and the service of cluster &lt;code&gt;cluster-2&lt;/code&gt; responds, while clusters &lt;code&gt;cluster-1&lt;/code&gt; and &lt;code&gt;cluster-3&lt;/code&gt; will not participate in the service.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;Hi, I am from cluster-2 and controlled by mesh!
+Hi, I am from cluster-2 and controlled by mesh!
+Hi, I am from cluster-2 and controlled by mesh!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Execute the following command to check &lt;code&gt;ServiceImports&lt;/code&gt; and you can see that &lt;code&gt;cluster-1&lt;/code&gt; and &lt;code&gt;cluster-3&lt;/code&gt; export services using &lt;code&gt;ServiceAccount&lt;/code&gt; &lt;code&gt;httpbin&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl get serviceimports httpbin -n httpbin -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec}&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq
+
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ports&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;endpoints&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;clusterKey&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;default/default/default/cluster-1&amp;#34;&lt;/span&gt;,
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;target&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ip&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/cluster-1/httpbin-mesh&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;81&lt;/span&gt;
+          &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;,
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;clusterKey&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;default/default/default/cluster-3&amp;#34;&lt;/span&gt;,
+          &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;target&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;host&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ip&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;192.168.1.110&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;path&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/cluster-3/httpbin-mesh&amp;#34;&lt;/span&gt;,
+            &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;83&lt;/span&gt;
+          &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+      &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;,
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;port&amp;#34;&lt;/span&gt;: 8080,
+      &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;protocol&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;TCP&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+  &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;,
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;serviceAccountName&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;httpbin&amp;#34;&lt;/span&gt;,
+  &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ClusterSetIP&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, we create another &lt;code&gt;TrafficTarget&lt;/code&gt; &lt;code&gt;curl-to-ext-httpbin&lt;/code&gt; that allows &lt;code&gt;curl&lt;/code&gt; to access the load using &lt;code&gt;ServiceAccount&lt;/code&gt; &lt;code&gt;httpbin&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;kubectl apply -n httpbin -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: TrafficTarget
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: access.smi-spec.io/v1alpha3
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: curl-to-ext-httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  destination:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    namespace: httpbin
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - kind: HTTPRouteGroup
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: httpbin-route
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    matches:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - all
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  sources:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    namespace: curl
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After applying the policy, test it again and all requests are successful.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Hi, I am from cluster-2 and controlled by mesh!
+Hi, I am from cluster-1 and controlled by mesh!
+Hi, I am from cluster-3 and controlled by mesh!
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
   </channel>
 </rss>

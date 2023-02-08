@@ -14,5 +14,56 @@
       
     
     
+    <item>
+      <title>Docs: About FSM</title>
+      <link>https://fsm-docs.flomesh.io/docs/overview/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/overview/about/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;about-fsm&#34;&gt;About FSM&lt;/h1&gt;
+&lt;p&gt;FSM stands for &lt;strong&gt;F&lt;/strong&gt;lomesh &lt;strong&gt;S&lt;/strong&gt;ervice &lt;strong&gt;M&lt;/strong&gt;esh, an acronym for the first letters of the name. It is used for north-south traffic management for Kubernetes. With programmable proxy &lt;a href=&#34;https://github.com/flomesh-io/pipy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pipy&lt;/a&gt; as its core, FSM provides features such as &lt;code&gt;Ingress controller&lt;/code&gt;, &lt;code&gt;Gateway API&lt;/code&gt; implementation, &lt;code&gt;load balancer&lt;/code&gt;, and &lt;code&gt;cross-cluster&lt;/code&gt; service discovery and registration.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The goal of FSM is to manage traffic both within and between Kubernetes clusters.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/kubernetes-source-north-traffic.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: FSM Components</title>
+      <link>https://fsm-docs.flomesh.io/docs/overview/components/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/overview/components/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;fsm-components&#34;&gt;FSM Components&lt;/h1&gt;
+&lt;p&gt;This guide explains the components of Flomesh Service Mesh (FSM)&lt;/p&gt;
+&lt;h2 id=&#34;inspect-components-of-fsm&#34;&gt;Inspect Components of FSM&lt;/h2&gt;
+&lt;p&gt;Some FSM components will be installed in the designated namespace during the installation process, the default namespace is &lt;code&gt;fsm&lt;/code&gt;. It can be checked by the following command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;kubectl get pods,svc,secrets,serviceaccount -n fsm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
+&lt;p&gt;With the default configuration, the following components will be installed:&lt;/p&gt;
+&lt;h3 id=&#34;1-manager&#34;&gt;(1) Manager&lt;/h3&gt;
+&lt;p&gt;The FSM Manager is the &lt;strong&gt;core component of FSM&lt;/strong&gt; and almost all other components interact directly or indirectly with the manager. The manager continuously monitors updates to Kubernetes native resources (&lt;code&gt;Service&lt;/code&gt;, &lt;code&gt;Node&lt;/code&gt;, &lt;code&gt;Ingress&lt;/code&gt;, etc.) and FSM custom resources (&lt;code&gt;Cluster&lt;/code&gt;, &lt;code&gt;GlobalTrafficPolicy&lt;/code&gt;, &lt;code&gt;ServiceExport&lt;/code&gt;, &lt;code&gt;ServiceImport&lt;/code&gt;, etc. related to multi-cluster) and synchronizes the configuration with other components.&lt;/p&gt;
+&lt;h3 id=&#34;2-repository&#34;&gt;(2) Repository&lt;/h3&gt;
+&lt;p&gt;The FSM repository (a.k.a &lt;code&gt;repo&lt;/code&gt;) is a concept in &lt;a href=&#34;https://github.com/flomesh-io/pipy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pipy&lt;/a&gt;, which stores the scripts (logic code) and configurations required for the data plane components to process traffic. These scripts and configurations come from the manager and the &lt;code&gt;repository&lt;/code&gt; provides a REST API for interaction. The manager updates the scripts and configurations through the REST API; the data plane proxies are notified for changes in repository codebase.&lt;/p&gt;
+&lt;h3 id=&#34;3-ingress-controller&#34;&gt;(3) Ingress Controller&lt;/h3&gt;
+&lt;p&gt;The FSM Ingress Controller (a.k.a &lt;strong&gt;Flomesh Ingress&lt;/strong&gt;) is one of the data planes of FSM, with the programmable proxy Pipy as its core, it implements the &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Kubernetes Ingress Controller API&lt;/a&gt; to provide management of Kubernetes ingress traffic. As one of the data plane components, it continuously monitors the repository (repo) and retrieves routing and other configuration information from the repo. For more information on using the Flomesh ingress controller, see the documentation.&lt;/p&gt;
+&lt;p&gt;In addition to the components installed by default, there are few other optional components.&lt;/p&gt;
+&lt;h3 id=&#34;1-egress-gateway&#34;&gt;(1) Egress Gateway&lt;/h3&gt;
+&lt;p&gt;The Egress Gateway, as its name suggests, is a gateway for outgoing traffic, and all outgoing traffic is routed through a unified Egress Gateway. Outgoing policies can be implemented on the Egress Gateway to manage outgoing traffic. For more information on using the Flomesh Egress Gateway, see the &lt;a href=&#34;../../docs/guides/egress_gateway&#34;&gt;Learn how to use FSM Egress Gateway component&lt;/a&gt; guide.&lt;/p&gt;
+&lt;h3 id=&#34;2-fsm-service-load-balancer&#34;&gt;(2) FSM Service Load balancer&lt;/h3&gt;
+&lt;p&gt;FSM Service Load Balancer is a component in FSM that provides external IP for LoadBalancer type Services. All traffic that enters through the external IP is load balanced to the Endpoints associated with the Service for processing. For more information refer to guide &lt;a href=&#34;../../docs/guides/service_loadbalancer&#34;&gt;Learn how to use FSM Service load balancing component&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/fsm-components.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>
