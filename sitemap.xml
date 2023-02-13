@@ -6,7 +6,11 @@
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/</loc>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/ingress/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/ingress/basics/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -22,7 +26,11 @@
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://fsm-docs.flomesh.io/docs/guides/egress_gateway/</loc>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/ingress/advanced_tls/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/service_loadbalancer/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -34,11 +42,23 @@
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://fsm-docs.flomesh.io/docs/guides/multicluster/</loc>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/egress_gateway/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/ingress/multi_tenancy/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/getting_started/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/ingress/ssl_passthrough/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/guides/multicluster/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -55,6 +75,22 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/releases/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/demos/ingress_basics/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/demos/ingress_tls/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/demos/ingress_multitenant/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/demos/ingress_passthrough/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>

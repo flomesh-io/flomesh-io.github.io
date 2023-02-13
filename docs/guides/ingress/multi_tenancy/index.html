@@ -10,24 +10,24 @@
 
 
 
-<link rel="shortcut icon" href="../../../favicon/favicon.ico" >
-<link rel="apple-touch-icon" href="../../../images/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" type="image/png" href="../../../favicon/favicon.png">
+<link rel="shortcut icon" href="../../../../favicon/favicon.ico" >
+<link rel="apple-touch-icon" href="../../../../images/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" type="image/png" href="../../../../favicon/favicon.png">
 
-<title>Flomesh Egress Gateway | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Egress Gateway" />
-<meta property="og:description" content="Learn how to use FSM Egress Gateway component" />
+<title>Flomesh Ingress Controller - Multi-tenancy | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Ingress Controller - Multi-tenancy" />
+<meta property="og:description" content="How to use the Flomesh Service Mesh Ingress controller to create physical isolation of Ingress controllers when hosting multiple tenants in your Kubernetes cluster" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/egress_gateway/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/ingress/multi_tenancy/" /><meta property="article:section" content="docs" />
 
 <meta property="og:site_name" content="Flomesh Service Mesh" />
 
-<meta itemprop="name" content="Flomesh Egress Gateway">
-<meta itemprop="description" content="Learn how to use FSM Egress Gateway component">
+<meta itemprop="name" content="Flomesh Ingress Controller - Multi-tenancy">
+<meta itemprop="description" content="How to use the Flomesh Service Mesh Ingress controller to create physical isolation of Ingress controllers when hosting multiple tenants in your Kubernetes cluster">
 
-<meta itemprop="wordCount" content="286">
+<meta itemprop="wordCount" content="585">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Flomesh Egress Gateway"/>
-<meta name="twitter:description" content="Learn how to use FSM Egress Gateway component"/>
+<meta name="twitter:title" content="Flomesh Ingress Controller - Multi-tenancy"/>
+<meta name="twitter:description" content="How to use the Flomesh Service Mesh Ingress controller to create physical isolation of Ingress controllers when hosting multiple tenants in your Kubernetes cluster"/>
 
 
 
@@ -39,7 +39,7 @@
 
 
 
-<link rel="stylesheet" href="../../../css/style.06a0e53c685ff2c3d54c610d820f1a183b52a35a0fb862dd8f32eb85d7141229.css" integrity="sha256-BqDlPGhf8sPVTGENgg8aGDtSo1oPuGLdjzLrhdcUEik=">
+<link rel="stylesheet" href="../../../../css/style.06a0e53c685ff2c3d54c610d820f1a183b52a35a0fb862dd8f32eb85d7141229.css" integrity="sha256-BqDlPGhf8sPVTGENgg8aGDtSo1oPuGLdjzLrhdcUEik=">
 
 
 <script
@@ -54,7 +54,7 @@
 
 
 
-<link rel="stylesheet" href="../../../css/prism.css" />
+<link rel="stylesheet" href="../../../../css/prism.css" />
 
 
 
@@ -115,7 +115,7 @@
 	
 	<a class="dropdown-item" href="https://release-v0-2.fsm-docs.flomesh.io/">v0.2 (latest)</a>
 	
-	<a class="dropdown-item" href="../../../docs/releases/docs">All Releases</a>
+	<a class="dropdown-item" href="../../../../docs/releases/docs">All Releases</a>
 	
 </div>
 
@@ -150,8 +150,8 @@
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.0599720564515ffcf4f7dfebf51d52a81d3def01f1669ff2b0179c75610acc7026163676c30bd280612dd0f6f625f1865ed67d7bb891ec6574bbd743a734ea3d.json"
-  data-offline-search-base-href="../../../"
+  data-offline-search-index-json-src="../../../../offline-search-index.0599720564515ffcf4f7dfebf51d52a81d3def01f1669ff2b0179c75610acc7026163676c30bd280612dd0f6f625f1865ed67d7bb891ec6574bbd743a734ea3d.json"
+  data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
 
@@ -171,7 +171,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
       
     ">&gt; Docs</a>
   </li>
@@ -191,7 +191,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Overview of FSM</a>
   </li>
@@ -210,7 +210,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/quickstart/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/quickstart/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Quick Start</a>
   </li>
@@ -229,7 +229,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/getting_started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/getting_started/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Getting Started</a>
   </li>
@@ -248,9 +248,9 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       active
-    ">&or; How-to Guides</a>
+    <a href="../../../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+      
+    ">&gt; How-to Guides</a>
   </li>
   
   <ul class="td-sidebar-docs-menu">
@@ -268,10 +268,42 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/guides/ingress/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       collapsed
-    ">&gt; Flomesh Ingress</a>
+    <a href="../../../../docs/guides/ingress/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+       active
+    ">&or; Flomesh Ingress</a>
   </li>
+  
+  <ul class="td-sidebar-docs-menu">
+    <li class="collapse show" id="docsguidesingress">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressbasics" href="../../../../docs/guides/ingress/basics/">Flomesh Ingress - Basics</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressadvanced_tls" href="../../../../docs/guides/ingress/advanced_tls/">Flomesh Ingress - Advanced TLS</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsguidesingressmulti_tenancy" href="../../../../docs/guides/ingress/multi_tenancy/">Flomesh Ingress Controller - Multi-tenancy</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressssl_passthrough" href="../../../../docs/guides/ingress/ssl_passthrough/">Flomesh Ingress - SSL Passthrough</a>
+      
+      
+    </li>
+  </ul>
   
 </ul>
 
@@ -280,19 +312,19 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesservice_loadbalancer" href="../../../docs/guides/service_loadbalancer/">Flomesh Service Loadbalancer</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesservice_loadbalancer" href="../../../../docs/guides/service_loadbalancer/">Flomesh Service Loadbalancer</a>
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsguidesegress_gateway" href="../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesegress_gateway" href="../../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
       
       
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesmulticluster" href="../../../docs/guides/multicluster/">Flomesh Multi-cluster API</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesmulticluster" href="../../../../docs/guides/multicluster/">Flomesh Multi-cluster API</a>
       
       
     </li>
@@ -312,7 +344,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Demos</a>
   </li>
@@ -331,7 +363,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/api_rerence/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/api_rerence/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; API Reference</a>
   </li>
@@ -350,7 +382,7 @@
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/releases/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
+    <a href="../../../../docs/releases/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
     ">&gt; Releases</a>
   </li>
@@ -389,6 +421,9 @@
 
 
 
+
+
+
 <li class="breadcrumb-item" >
 	<a href="https://fsm-docs.flomesh.io/docs/">Docs</a>
 </li>
@@ -403,8 +438,15 @@
 
 
 
+<li class="breadcrumb-item" >
+	<a href="https://fsm-docs.flomesh.io/docs/guides/ingress/">Flomesh Ingress</a>
+</li>
+
+
+
+
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://fsm-docs.flomesh.io/docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+	<a href="https://fsm-docs.flomesh.io/docs/guides/ingress/multi_tenancy/">Flomesh Ingress Controller - Multi-tenancy</a>
 </li>
 
 	</ol>
@@ -412,29 +454,49 @@
 
             
 <div class="td-content">
-	<p>In a Kubernetes cluster, there are two common modes for applications to access external services: one mode is for each application to complete the network communication with external services independently; the other mode is through a unified egress gateway for relay.</p>
-<p><a href="https://github.com/flomesh-io/fsm" target="_blank" rel="noopener">FSM</a> is widely used to handle north-south traffic in Kubernetes, and besides providing management of ingress traffic, egress gateway is another feature of it.</p>
-<p><img src="../../../docs/images/fsm-egress-gateway.png" alt="fsm-egress-gateway"></p>
-<p>When installing FSM, to enable the <code>Egress Gateway</code> functionality, you need to set the parameter <code>--set fsm.egressGateway.enabled=true</code>. More configuration parameters related to the Egress Gateway can be found here: <a href="https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268" target="_blank" rel="noopener">https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268</a>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm repo add fsm https://charts.flomesh.io
-helm repo update
-
-helm install --namespace fsm --create-namespace <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  --set fsm.version<span style="color:#ce5c00;font-weight:bold">=</span>0.2.1-alpha.2 <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  --set fsm.egressGateway.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  fsm fsm/fsm
-</code></pre></div><p>The connection between the application and the gateway has two modes, which can be set through the parameter <code>--set fsm.egressGateway.mode=xxx</code> during installation:</p>
+	<p>It&rsquo;s very rare for organizations to have or provide a dedicated Kubernetes cluster to each tenant, as it&rsquo;s generally more cost-effective to share a cluster. Sharing clusters reduces expenses and streamlines management. Sharing clusters, however, also comes with difficulties like managing noisy neighbors and ensuring security.</p>
+<p>Clusters can be shared in many ways. In some cases, different applications may run in the same cluster. In other cases, multiple instances of the same application may run in the same cluster, one for each end user. All these types of sharing are frequently described using the umbrella term multi-tenancy.</p>
+<p>While Kubernetes does not have first-class concepts of end users or tenants, it provides several features to help manage different tenancy requirements. These are discussed below.</p>
 <ul>
-<li><code>http2tunnel</code> uses <strong>HTTP/2</strong> tunnel for communication and is the default mode</li>
-<li><code>sock5</code> uses the <strong>SOCKS5</strong> protocol for communication.</li>
+<li>
+<p>A common form of multi-tenancy is to share a cluster between multiple teams within an organization, each of whom may operate one or more workloads.  In this scenario, members of the teams often have direct access to Kubernetes resources via tools such as kubectl, or indirect access through GitOps controllers or other types of release automation tools. There is often some level of trust between members of different teams, but Kubernetes policies such as RBAC, quotas, and network policies are essential to safely and fairly share clusters.</p>
+</li>
+<li>
+<p>The other major form of multi-tenancy frequently involves a Software-as-a-Service (SaaS) vendor running multiple instances of a workload for customers. This business model is so strongly associated with this deployment style that many people call it &ldquo;SaaS tenancy.&rdquo; In this scenario, the customers do not have access to the cluster; Kubernetes is invisible from their perspective and is only used by the vendor to manage the workloads. Cost optimization is frequently a critical concern, and Kubernetes policies are used to ensure that the workloads are strongly isolated from each other.</p>
+</li>
 </ul>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/HTTP_tunnel" target="_blank" rel="noopener">HTTP Tunneling</a> is a technique used to establish a network connection between two computers in cases where the connection is restricted by firewalls, NATs, ACLs, and other limitations. This tunnel is typically intermediated by a proxy server located in a DMZ.</p>
-</blockquote>
-<blockquote>
-<p>SOCKS is a network protocol that acts as an intermediary between a client and a server to facilitate communication between the two. It is primarily used to bypass network restrictions such as firewalls, NATs, and ACLs and typically operates at the session layer of the OSI model, between the presentation layer and the transport layer.</p>
-</blockquote>
-<p>Flomesh Egress Gateway is often integrated with service mesh <a href="https://github.com/flomesh-io/osm-edge" target="_blank" rel="noopener">osm-edge</a> to provide more intelligent and efficient outbound traffic management. For more information and integration guidance, please refer to <a href="https://osm-edge-docs.flomesh.io/docs/guides/traffic_management/egress_gateway/" target="_blank" rel="noopener">osm-edge Egress Gateway usage guide</a></p>
+<h3 id="tenant-isolation">Tenant Isolation</h3>
+<p>There are several ways to design and build multi-tenant solutions with Kubernetes at its control plane, data plane, or at both levels. Each of these methods comes with its own set of tradeoffs that impact the isolation level, implementation effort, operational complexity, and cost of service.</p>
+<p><em>Kubernetes Control plane isolation ensures that different tenants cannot access or affect each other&rsquo;s Kubernetes API resources, and Flomesh Service Mesh (FSM) Ingress controller provides isolated Ingress controllers for Kubernetes Namespaces.</em></p>
+<p>In Kubernetes, a <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces" target="_blank" rel="noopener">Namespace</a> provides a mechanism for isolating groups of API resources within a single cluster. This isolation has two key dimensions:</p>
+<ul>
+<li>
+<p>Object names within a namespace can overlap with names in other namespaces, similar to files in folders. This allows tenants to name their resources without having to consider what other tenants are doing.</p>
+</li>
+<li>
+<p>Many Kubernetes security policies are scoped to namespaces. For example, RBAC Roles and Network Policies are namespace-scoped resources. Using RBAC, Users and Service Accounts can be restricted to a namespace.</p>
+</li>
+</ul>
+<p>In a multi-tenant environment, a Namespace helps segment a tenant&rsquo;s workload into a logical and distinct management unit. A common practice is to isolate every workload in its namespace, even if multiple workloads are operated by the same tenant. This ensures that each workload has its own identity and can be configured with an appropriate security policy.</p>
+<h2 id="flomesh-ingress-controller">Flomesh Ingress Controller</h2>
+<p>Flomesh Ingress Controller supports a multi-tenancy model via its concept of <code>NamespacedIngress</code> CRD where it deploys a physically isolated <strong>Ingress Controller</strong> for requested <strong>Namespace</strong>.</p>
+<p>For example, the YAML below defines an Ingress Controller that monitors on port 100 and also creates a LoadBalancer type service for it that listens on port 100.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">flomesh.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">NamespacedIngress</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">namespaced-ingress-100</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">test-100</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">serviceType</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">LoadBalancer</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">http</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">port</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">100</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">protocol</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">TCP</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p><img src="../../../../docs/images/ingress/multitenant/multi-tenant.png" alt=""></p>
+<h2 id="demo">Demo</h2>
+<ul>
+<li><a href="../../../../docs/demos/ingress_multitenant">Achieving multi-tenancy with Flomesh Ingress Controller</a></li>
+</ul>
 
 	
 		<style>
@@ -560,11 +622,11 @@ helm install --namespace fsm --create-namespace <span style="color:#4e9a06">\
 
 
 
-<script src="../../../js/main.min.4310a35a2022b0e5a24f13dcf99aa4ea745e3027f710beacfe22327da5d855c5.js" integrity="sha256-QxCjWiAisOWiTxPc&#43;Zqk6nReMCf3EL6s/iIyfaXYVcU=" crossorigin="anonymous"></script>
+<script src="../../../../js/main.min.4310a35a2022b0e5a24f13dcf99aa4ea745e3027f710beacfe22327da5d855c5.js" integrity="sha256-QxCjWiAisOWiTxPc&#43;Zqk6nReMCf3EL6s/iIyfaXYVcU=" crossorigin="anonymous"></script>
 
 
 
-<script src='../../../js/prism.js'></script>
+<script src='../../../../js/prism.js'></script>
 
 
 

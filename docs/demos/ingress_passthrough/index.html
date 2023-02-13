@@ -14,20 +14,20 @@
 <link rel="apple-touch-icon" href="../../../images/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" type="image/png" href="../../../favicon/favicon.png">
 
-<title>Flomesh Egress Gateway | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Egress Gateway" />
-<meta property="og:description" content="Learn how to use FSM Egress Gateway component" />
+<title>Flomesh Ingress Controller - SSL Passthrough | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Ingress Controller - SSL Passthrough" />
+<meta property="og:description" content="How to use SSL passthrough feature of Flomesh Ingress" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/egress_gateway/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/demos/ingress_passthrough/" /><meta property="article:section" content="docs" />
 
 <meta property="og:site_name" content="Flomesh Service Mesh" />
 
-<meta itemprop="name" content="Flomesh Egress Gateway">
-<meta itemprop="description" content="Learn how to use FSM Egress Gateway component">
+<meta itemprop="name" content="Flomesh Ingress Controller - SSL Passthrough">
+<meta itemprop="description" content="How to use SSL passthrough feature of Flomesh Ingress">
 
-<meta itemprop="wordCount" content="286">
+<meta itemprop="wordCount" content="228">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Flomesh Egress Gateway"/>
-<meta name="twitter:description" content="Learn how to use FSM Egress Gateway component"/>
+<meta name="twitter:title" content="Flomesh Ingress Controller - SSL Passthrough"/>
+<meta name="twitter:description" content="How to use SSL passthrough feature of Flomesh Ingress"/>
 
 
 
@@ -249,54 +249,9 @@
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
     <a href="../../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       active
-    ">&or; How-to Guides</a>
-  </li>
-  
-  <ul class="td-sidebar-docs-menu">
-    <li class="collapse show" id="docsguides">
-      
-      
-      
-      
-      
-
-
-
-
-
-
-<ul class="td-sidebar-nav__section pr-md-3">
-  <li class="td-sidebar-nav__section-title">
-    <a href="../../../docs/guides/ingress/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
        collapsed
-    ">&gt; Flomesh Ingress</a>
+    ">&gt; How-to Guides</a>
   </li>
-  
-</ul>
-
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesservice_loadbalancer" href="../../../docs/guides/service_loadbalancer/">Flomesh Service Loadbalancer</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsguidesegress_gateway" href="../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
-      
-      
-      
-      
-      
-      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesmulticluster" href="../../../docs/guides/multicluster/">Flomesh Multi-cluster API</a>
-      
-      
-    </li>
-  </ul>
   
 </ul>
 
@@ -313,9 +268,53 @@
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
     <a href="../../../docs/demos/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       collapsed
-    ">&gt; Demos</a>
+       active
+    ">&or; Demos</a>
   </li>
+  
+  <ul class="td-sidebar-docs-menu">
+    <li class="collapse show" id="docsdemos">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosingress_basics" href="../../../docs/demos/ingress_basics/">Flomesh Ingress Controller basics</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosingress_tls" href="../../../docs/demos/ingress_tls/">Flomesh Ingress Controller - Advanced TLS</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosingress_multitenant" href="../../../docs/demos/ingress_multitenant/">Flomesh Ingress Controller - Multi-tenancy</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsdemosingress_passthrough" href="../../../docs/demos/ingress_passthrough/">Flomesh Ingress Controller - SSL Passthrough</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosmulticluster_services_communication" href="../../../docs/demos/multicluster_services_communication/">Multi-cluster services discovery &amp; communication</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdemosmulticluster_services_access_control" href="../../../docs/demos/multicluster_services_access_control/">Multi-cluster services access control</a>
+      
+      
+    </li>
+  </ul>
   
 </ul>
 
@@ -397,14 +396,14 @@
 
 
 <li class="breadcrumb-item" >
-	<a href="https://fsm-docs.flomesh.io/docs/guides/">How-to Guides</a>
+	<a href="https://fsm-docs.flomesh.io/docs/demos/">Demos</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://fsm-docs.flomesh.io/docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+	<a href="https://fsm-docs.flomesh.io/docs/demos/ingress_passthrough/">Flomesh Ingress Controller - SSL Passthrough</a>
 </li>
 
 	</ol>
@@ -412,30 +411,58 @@
 
             
 <div class="td-content">
-	<p>In a Kubernetes cluster, there are two common modes for applications to access external services: one mode is for each application to complete the network communication with external services independently; the other mode is through a unified egress gateway for relay.</p>
-<p><a href="https://github.com/flomesh-io/fsm" target="_blank" rel="noopener">FSM</a> is widely used to handle north-south traffic in Kubernetes, and besides providing management of ingress traffic, egress gateway is another feature of it.</p>
-<p><img src="../../../docs/images/fsm-egress-gateway.png" alt="fsm-egress-gateway"></p>
-<p>When installing FSM, to enable the <code>Egress Gateway</code> functionality, you need to set the parameter <code>--set fsm.egressGateway.enabled=true</code>. More configuration parameters related to the Egress Gateway can be found here: <a href="https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268" target="_blank" rel="noopener">https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268</a>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm repo add fsm https://charts.flomesh.io
+	<p>This guide demonstrate how to configure SSL passthrough feature of Flomesh Ingress</p>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Kubernetes cluster, version v1.19.0 and higher</li>
+<li>Helm 3 CLI for standalone installation of Flomesh Ingress</li>
+</ul>
+<h3 id="install-flomesh--ingress">Install Flomesh  Ingress</h3>
+<p>if you haven&rsquo;t yet installed FSM, you can use Helm to install fsm.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm repo add fsm https://flomesh-io.github.io/fsm
 helm repo update
 
-helm install --namespace fsm --create-namespace <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  --set fsm.version<span style="color:#ce5c00;font-weight:bold">=</span>0.2.1-alpha.2 <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  --set fsm.egressGateway.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
+helm install <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --namespace fsm <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --create-namespace <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --set fsm.version<span style="color:#ce5c00;font-weight:bold">=</span>0.2.0 <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --set fsm.ingress.tls.sslPassthrough.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --set fsm.serviceLB.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --set fsm.ingress.tls.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  fsm fsm/fsm
-</code></pre></div><p>The connection between the application and the gateway has two modes, which can be set through the parameter <code>--set fsm.egressGateway.mode=xxx</code> during installation:</p>
-<ul>
-<li><code>http2tunnel</code> uses <strong>HTTP/2</strong> tunnel for communication and is the default mode</li>
-<li><code>sock5</code> uses the <strong>SOCKS5</strong> protocol for communication.</li>
-</ul>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/HTTP_tunnel" target="_blank" rel="noopener">HTTP Tunneling</a> is a technique used to establish a network connection between two computers in cases where the connection is restricted by firewalls, NATs, ACLs, and other limitations. This tunnel is typically intermediated by a proxy server located in a DMZ.</p>
-</blockquote>
-<blockquote>
-<p>SOCKS is a network protocol that acts as an intermediary between a client and a server to facilitate communication between the two. It is primarily used to bypass network restrictions such as firewalls, NATs, and ACLs and typically operates at the session layer of the OSI model, between the presentation layer and the transport layer.</p>
-</blockquote>
-<p>Flomesh Egress Gateway is often integrated with service mesh <a href="https://github.com/flomesh-io/osm-edge" target="_blank" rel="noopener">osm-edge</a> to provide more intelligent and efficient outbound traffic management. For more information and integration guidance, please refer to <a href="https://osm-edge-docs.flomesh.io/docs/guides/traffic_management/egress_gateway/" target="_blank" rel="noopener">osm-edge Egress Gateway usage guide</a></p>
+</code></pre></div><p>Make sure pods are up and running.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get po -n fsm
+NAME                                               READY   STATUS    RESTARTS   AGE
+fsm-repo-5f6dc647c7-w45sl                          1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          26s
+fsm-manager-864c74b978-fdks9                       1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          26s
+svclb-fsm-ingress-pipy-controller-26382000-scgt2   2/2     Running   <span style="color:#0000cf;font-weight:bold">0</span>          19s
+fsm-ingress-pipy-5cfc98bb48-v9x5s                  1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          26s
+</code></pre></div><p>Retrieve Ingress host IP and port information.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">export</span> <span style="color:#000">ingress_host</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl -n fsm get service fsm-ingress-pipy-controller -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span><span style="color:#204a87;font-weight:bold">)</span><span style="color:#4e9a06">&#34;</span>
+<span style="color:#204a87">export</span> <span style="color:#000">ingress_port</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl -n fsm get service fsm-ingress-pipy-controller -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.ports[?(@.name==&#34;https&#34;)].port}&#39;</span><span style="color:#204a87;font-weight:bold">)</span><span style="color:#4e9a06">&#34;</span>
+</code></pre></div><h2 id="test">Test</h2>
+<p>For simplicity, we will not deploy an upstream service here, but instead use <code>https://httpbin.org</code> directly as the upstream, and <code>resolve</code> it to the ingress address obtained above through the <code>curl</code>&rsquo;s revolve parameter. If the port of ingress is not <code>433</code>, you can use the <code>connect-to</code> parameter -<code>-connect-to httpbin.org:443:$ingress_host:$ingress_port</code>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl https://httpbin.org/get -i --resolve httpbin.org:443:<span style="color:#000">$ingress_host</span>:<span style="color:#000">$ingress_port</span>
+HTTP/2 <span style="color:#0000cf;font-weight:bold">200</span>
+date: Tue, <span style="color:#0000cf;font-weight:bold">31</span> Jan <span style="color:#0000cf;font-weight:bold">2023</span> 11:21:41 GMT
+content-type: application/json
+content-length: <span style="color:#0000cf;font-weight:bold">255</span>
+server: gunicorn/19.9.0
+access-control-allow-origin: *
+access-control-allow-credentials: <span style="color:#204a87">true</span>
 
+<span style="color:#ce5c00;font-weight:bold">{</span>
+  <span style="color:#4e9a06">&#34;args&#34;</span>: <span style="color:#ce5c00;font-weight:bold">{}</span>,
+  <span style="color:#4e9a06">&#34;headers&#34;</span>: <span style="color:#ce5c00;font-weight:bold">{</span>
+    <span style="color:#4e9a06">&#34;Accept&#34;</span>: <span style="color:#4e9a06">&#34;*/*&#34;</span>,
+    <span style="color:#4e9a06">&#34;Host&#34;</span>: <span style="color:#4e9a06">&#34;httpbin.org&#34;</span>,
+    <span style="color:#4e9a06">&#34;User-Agent&#34;</span>: <span style="color:#4e9a06">&#34;curl/7.68.0&#34;</span>,
+    <span style="color:#4e9a06">&#34;X-Amzn-Trace-Id&#34;</span>: <span style="color:#4e9a06">&#34;Root=1-63d8f9c5-5af02436470161040dc68f1e&#34;</span>
+  <span style="color:#ce5c00;font-weight:bold">}</span>,
+  <span style="color:#4e9a06">&#34;origin&#34;</span>: <span style="color:#4e9a06">&#34;20.205.11.203&#34;</span>,
+  <span style="color:#4e9a06">&#34;url&#34;</span>: <span style="color:#4e9a06">&#34;https://httpbin.org/get&#34;</span>
+<span style="color:#ce5c00;font-weight:bold">}</span>
+</code></pre></div>
 	
 		<style>
   .feedback--answer {

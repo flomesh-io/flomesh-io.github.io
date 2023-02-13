@@ -8,26 +8,22 @@
 
 <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
+<link rel="alternate" type="application/rss&#43;xml" href="https://fsm-docs.flomesh.io/docs/guides/ingress/index.xml">
 
 
 <link rel="shortcut icon" href="../../../favicon/favicon.ico" >
 <link rel="apple-touch-icon" href="../../../images/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" type="image/png" href="../../../favicon/favicon.png">
 
-<title>Flomesh Egress Gateway | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Egress Gateway" />
-<meta property="og:description" content="Learn how to use FSM Egress Gateway component" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/egress_gateway/" /><meta property="article:section" content="docs" />
+<title>Flomesh Ingress | Flomesh Service Mesh</title><meta property="og:title" content="Flomesh Ingress" />
+<meta property="og:description" content="Learn how to use Flomesh Ingress component" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://fsm-docs.flomesh.io/docs/guides/ingress/" /><meta property="og:site_name" content="Flomesh Service Mesh" />
 
-<meta property="og:site_name" content="Flomesh Service Mesh" />
-
-<meta itemprop="name" content="Flomesh Egress Gateway">
-<meta itemprop="description" content="Learn how to use FSM Egress Gateway component">
-
-<meta itemprop="wordCount" content="286">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Flomesh Egress Gateway"/>
-<meta name="twitter:description" content="Learn how to use FSM Egress Gateway component"/>
+<meta itemprop="name" content="Flomesh Ingress">
+<meta itemprop="description" content="Learn how to use Flomesh Ingress component"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Flomesh Ingress"/>
+<meta name="twitter:description" content="Learn how to use Flomesh Ingress component"/>
 
 
 
@@ -59,7 +55,7 @@
 
 
   </head>
-  <body class="td-page ">
+  <body class="td-section ">
     <header>
       
 
@@ -249,8 +245,8 @@
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
     <a href="../../../docs/guides/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       active
-    ">&or; How-to Guides</a>
+      
+    ">&gt; How-to Guides</a>
   </li>
   
   <ul class="td-sidebar-docs-menu">
@@ -269,9 +265,41 @@
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
     <a href="../../../docs/guides/ingress/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section 
-       collapsed
-    ">&gt; Flomesh Ingress</a>
+       active
+    ">&or; Flomesh Ingress</a>
   </li>
+  
+  <ul class="td-sidebar-docs-menu">
+    <li class="collapse show" id="docsguidesingress">
+      
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressbasics" href="../../../docs/guides/ingress/basics/">Flomesh Ingress - Basics</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressadvanced_tls" href="../../../docs/guides/ingress/advanced_tls/">Flomesh Ingress - Advanced TLS</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressmulti_tenancy" href="../../../docs/guides/ingress/multi_tenancy/">Flomesh Ingress Controller - Multi-tenancy</a>
+      
+      
+      
+      
+      
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesingressssl_passthrough" href="../../../docs/guides/ingress/ssl_passthrough/">Flomesh Ingress - SSL Passthrough</a>
+      
+      
+    </li>
+  </ul>
   
 </ul>
 
@@ -286,7 +314,7 @@
       
       
       
-      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsguidesegress_gateway" href="../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsguidesegress_gateway" href="../../../docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
       
       
       
@@ -404,7 +432,7 @@
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://fsm-docs.flomesh.io/docs/guides/egress_gateway/">Flomesh Egress Gateway</a>
+	<a href="https://fsm-docs.flomesh.io/docs/guides/ingress/">Flomesh Ingress</a>
 </li>
 
 	</ol>
@@ -412,29 +440,99 @@
 
             
 <div class="td-content">
-	<p>In a Kubernetes cluster, there are two common modes for applications to access external services: one mode is for each application to complete the network communication with external services independently; the other mode is through a unified egress gateway for relay.</p>
-<p><a href="https://github.com/flomesh-io/fsm" target="_blank" rel="noopener">FSM</a> is widely used to handle north-south traffic in Kubernetes, and besides providing management of ingress traffic, egress gateway is another feature of it.</p>
-<p><img src="../../../docs/images/fsm-egress-gateway.png" alt="fsm-egress-gateway"></p>
-<p>When installing FSM, to enable the <code>Egress Gateway</code> functionality, you need to set the parameter <code>--set fsm.egressGateway.enabled=true</code>. More configuration parameters related to the Egress Gateway can be found here: <a href="https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268" target="_blank" rel="noopener">https://github.com/flomesh-io/fsm/blob/main/charts/fsm/values.yaml#L268</a>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">helm repo add fsm https://charts.flomesh.io
-helm repo update
-
-helm install --namespace fsm --create-namespace <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  --set fsm.version<span style="color:#ce5c00;font-weight:bold">=</span>0.2.1-alpha.2 <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  --set fsm.egressGateway.enabled<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>  fsm fsm/fsm
-</code></pre></div><p>The connection between the application and the gateway has two modes, which can be set through the parameter <code>--set fsm.egressGateway.mode=xxx</code> during installation:</p>
-<ul>
-<li><code>http2tunnel</code> uses <strong>HTTP/2</strong> tunnel for communication and is the default mode</li>
-<li><code>sock5</code> uses the <strong>SOCKS5</strong> protocol for communication.</li>
-</ul>
-<blockquote>
-<p><a href="https://en.wikipedia.org/wiki/HTTP_tunnel" target="_blank" rel="noopener">HTTP Tunneling</a> is a technique used to establish a network connection between two computers in cases where the connection is restricted by firewalls, NATs, ACLs, and other limitations. This tunnel is typically intermediated by a proxy server located in a DMZ.</p>
-</blockquote>
-<blockquote>
-<p>SOCKS is a network protocol that acts as an intermediary between a client and a server to facilitate communication between the two. It is primarily used to bypass network restrictions such as firewalls, NATs, and ACLs and typically operates at the session layer of the OSI model, between the presentation layer and the transport layer.</p>
-</blockquote>
-<p>Flomesh Egress Gateway is often integrated with service mesh <a href="https://github.com/flomesh-io/osm-edge" target="_blank" rel="noopener">osm-edge</a> to provide more intelligent and efficient outbound traffic management. For more information and integration guidance, please refer to <a href="https://osm-edge-docs.flomesh.io/docs/guides/traffic_management/egress_gateway/" target="_blank" rel="noopener">osm-edge Egress Gateway usage guide</a></p>
+	<h1>Flomesh Ingress</h1>
+        <div class="lead">Learn how to use Flomesh Ingress component</div>
+	
+	
+        <div class="section-index">
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="../../../docs/guides/ingress/basics/">Flomesh Ingress - Basics</a>
+                    </h5>
+                    <p>Guide on basics of Flomesh Ingress basics</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="../../../docs/guides/ingress/advanced_tls/">Flomesh Ingress - Advanced TLS</a>
+                    </h5>
+                    <p>Guide on configuring Flomesh Ingress with TLS and its advanced use</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="../../../docs/guides/ingress/multi_tenancy/">Flomesh Ingress Controller - Multi-tenancy</a>
+                    </h5>
+                    <p>How to use the Flomesh Service Mesh Ingress controller to create physical isolation of Ingress controllers when hosting multiple tenants in your Kubernetes cluster</p>
+                </div>
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="../../../docs/guides/ingress/ssl_passthrough/">Flomesh Ingress - SSL Passthrough</a>
+                    </h5>
+                    <p>Guide on configuring SSL offloading/termination, passthrough on Flomesh Ingress</p>
+                </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+</div>
 
 	
 		<style>
@@ -499,7 +597,6 @@ helm install --namespace fsm --create-namespace <span style="color:#4e9a06">\
 	
 	
 </div>
-
 
           </main>
         </div>

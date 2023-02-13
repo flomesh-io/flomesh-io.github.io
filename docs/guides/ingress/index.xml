@@ -1,0 +1,163 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flomesh Service Mesh – Flomesh Ingress</title>
+    <link>https://fsm-docs.flomesh.io/docs/guides/ingress/</link>
+    <description>Recent content in Flomesh Ingress on Flomesh Service Mesh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	  <atom:link href="https://fsm-docs.flomesh.io/docs/guides/ingress/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Flomesh Ingress - Basics</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/ingress/basics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/ingress/basics/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;flomesh-ingress-controller---basics&#34;&gt;Flomesh Ingress Controller - Basics&lt;/h1&gt;
+&lt;p&gt;The Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/ingress/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Ingress API&lt;/a&gt; is designed with a separation of concerns, where the Ingress implementation provides an entry feature infrastructure managed by operations staff; it also allows application owners to control the routing of requests to the backend through rules.&lt;/p&gt;
+&lt;p&gt;Ingress is an API object for managing external access to services in a cluster, with typical access through HTTP. It provides load balancing, SSL termination, and name-based virtual hosting. For the Ingress resource to work, the cluster must have a running Ingress controller.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Ingress controller&lt;/a&gt; configures the HTTP load balancer by monitoring Ingress resources in the cluster.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/ingress/basics/fsm-demo.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;demo&#34;&gt;Demo&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../../docs/demos/ingress_basics&#34;&gt;HTTP and HTTPS with Flomesh Ingress Controller&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Flomesh Ingress - Advanced TLS</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/ingress/advanced_tls/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/ingress/advanced_tls/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;flomesh-ingress-controller---advanced-tls&#34;&gt;Flomesh Ingress Controller - Advanced TLS&lt;/h1&gt;
+&lt;p&gt;In the basics guide &lt;a href=&#34;../../../docs/guides/ingress/basics&#34;&gt;Flomesh Ingress - Basic&lt;/a&gt;, we introduced Flomesh Ingress and some of its basic functinoality. In this part of series, we will continue on where we left and look into advanced TLS features and we can configure Flomesh Ingress to use them.&lt;/p&gt;
+&lt;p&gt;Normally, we see below four combinations of communication with upstream services&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Client -&amp;gt; HTTP Ingress -&amp;gt; HTTP Upstream&lt;/li&gt;
+&lt;li&gt;Client -&amp;gt; HTTPS Ingress -&amp;gt; HTTP Upstream&lt;/li&gt;
+&lt;li&gt;Client -&amp;gt; HTTP Ingress -&amp;gt; HTTPS Upstream&lt;/li&gt;
+&lt;li&gt;Client -&amp;gt; HTTPS Ingress -&amp;gt; HTTPS Upstream&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Two of the above combinations has been covered in basics introduction blog post and in this article we will introduce the remaining two combinations i.e. communicating with an upstream HTTPS service.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HTTPS Upstream: The certificate of the backend service, the upstream, must be checked.&lt;/li&gt;
+&lt;li&gt;Client Verification: Mainly when using HTTPS entrance, the certificate used by the client is checked.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/ingress/tls/fsm-demo-https-upstream.png&#34; alt=&#34;fsm-demo-https-upstream&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;demo&#34;&gt;Demo&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../../docs/demos/ingress_tls&#34;&gt;Flomesh Ingress Controller Advanced TLS features&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Flomesh Ingress Controller - Multi-tenancy</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/ingress/multi_tenancy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/ingress/multi_tenancy/</guid>
+      <description>
+        
+        
+        &lt;p&gt;It&amp;rsquo;s very rare for organizations to have or provide a dedicated Kubernetes cluster to each tenant, as it&amp;rsquo;s generally more cost-effective to share a cluster. Sharing clusters reduces expenses and streamlines management. Sharing clusters, however, also comes with difficulties like managing noisy neighbors and ensuring security.&lt;/p&gt;
+&lt;p&gt;Clusters can be shared in many ways. In some cases, different applications may run in the same cluster. In other cases, multiple instances of the same application may run in the same cluster, one for each end user. All these types of sharing are frequently described using the umbrella term multi-tenancy.&lt;/p&gt;
+&lt;p&gt;While Kubernetes does not have first-class concepts of end users or tenants, it provides several features to help manage different tenancy requirements. These are discussed below.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A common form of multi-tenancy is to share a cluster between multiple teams within an organization, each of whom may operate one or more workloads.  In this scenario, members of the teams often have direct access to Kubernetes resources via tools such as kubectl, or indirect access through GitOps controllers or other types of release automation tools. There is often some level of trust between members of different teams, but Kubernetes policies such as RBAC, quotas, and network policies are essential to safely and fairly share clusters.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The other major form of multi-tenancy frequently involves a Software-as-a-Service (SaaS) vendor running multiple instances of a workload for customers. This business model is so strongly associated with this deployment style that many people call it &amp;ldquo;SaaS tenancy.&amp;rdquo; In this scenario, the customers do not have access to the cluster; Kubernetes is invisible from their perspective and is only used by the vendor to manage the workloads. Cost optimization is frequently a critical concern, and Kubernetes policies are used to ensure that the workloads are strongly isolated from each other.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;tenant-isolation&#34;&gt;Tenant Isolation&lt;/h3&gt;
+&lt;p&gt;There are several ways to design and build multi-tenant solutions with Kubernetes at its control plane, data plane, or at both levels. Each of these methods comes with its own set of tradeoffs that impact the isolation level, implementation effort, operational complexity, and cost of service.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Kubernetes Control plane isolation ensures that different tenants cannot access or affect each other&amp;rsquo;s Kubernetes API resources, and Flomesh Service Mesh (FSM) Ingress controller provides isolated Ingress controllers for Kubernetes Namespaces.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In Kubernetes, a &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Namespace&lt;/a&gt; provides a mechanism for isolating groups of API resources within a single cluster. This isolation has two key dimensions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Object names within a namespace can overlap with names in other namespaces, similar to files in folders. This allows tenants to name their resources without having to consider what other tenants are doing.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Many Kubernetes security policies are scoped to namespaces. For example, RBAC Roles and Network Policies are namespace-scoped resources. Using RBAC, Users and Service Accounts can be restricted to a namespace.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In a multi-tenant environment, a Namespace helps segment a tenant&amp;rsquo;s workload into a logical and distinct management unit. A common practice is to isolate every workload in its namespace, even if multiple workloads are operated by the same tenant. This ensures that each workload has its own identity and can be configured with an appropriate security policy.&lt;/p&gt;
+&lt;h2 id=&#34;flomesh-ingress-controller&#34;&gt;Flomesh Ingress Controller&lt;/h2&gt;
+&lt;p&gt;Flomesh Ingress Controller supports a multi-tenancy model via its concept of &lt;code&gt;NamespacedIngress&lt;/code&gt; CRD where it deploys a physically isolated &lt;strong&gt;Ingress Controller&lt;/strong&gt; for requested &lt;strong&gt;Namespace&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;For example, the YAML below defines an Ingress Controller that monitors on port 100 and also creates a LoadBalancer type service for it that listens on port 100.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;flomesh.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;NamespacedIngress&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;namespaced-ingress-100&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;test-100&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;serviceType&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LoadBalancer&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ports&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;http&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;port&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;100&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;protocol&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;TCP&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;../../../docs/images/ingress/multitenant/multi-tenant.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;demo&#34;&gt;Demo&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../../docs/demos/ingress_multitenant&#34;&gt;Achieving multi-tenancy with Flomesh Ingress Controller&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Flomesh Ingress - SSL Passthrough</title>
+      <link>https://fsm-docs.flomesh.io/docs/guides/ingress/ssl_passthrough/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/guides/ingress/ssl_passthrough/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;flomesh-ingress-controller---ssl-passthrough&#34;&gt;Flomesh Ingress Controller - SSL Passthrough&lt;/h1&gt;
+&lt;p&gt;This guide will demonstrate SSL passthrough feature of Flomesh Ingress.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-ssl-passthrough&#34;&gt;What is SSL passthrough&lt;/h2&gt;
+&lt;p&gt;SSL (Secure Socket Layer), also known as TLS (Transport Layer Security), protects the security communication between the client and the server through encryption.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/ingress/passthrough/ssl-passthrough.png&#34; alt=&#34;ingress-ssl-passthrough&#34;&gt;&lt;/p&gt;
+&lt;p&gt;SSL Passthrough is one of the two ways that a proxy server handles SSL requests (the other is SSL offload). In SSL passthrough mode, the proxy does not decrypt the SSL request from the client but instead forwards it to the upstream server for decryption, meaning the data remains encrypted while passing through the proxy, thus ensuring the security of important and sensitive data.&lt;/p&gt;
+&lt;h2 id=&#34;advantages-of-ssl-passthrough&#34;&gt;Advantages of SSL passthrough&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Since the data is not decrypted on the proxy but is forwarded to the upstream server in an encrypted manner, the data is protected from network attacks.&lt;/li&gt;
+&lt;li&gt;Encrypted data arrives at the upstream server without decryption, ensuring the confidentiality of the data.&lt;/li&gt;
+&lt;li&gt;This is also the simplest method of configuring SSL for the proxy.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;disadvantages-of-ssl-passthrough&#34;&gt;Disadvantages of SSL passthrough&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Malicious code may be present in the traffic, which will directly reach the backend server.&lt;/li&gt;
+&lt;li&gt;In the SSL passthrough process, switching servers is not possible.&lt;/li&gt;
+&lt;li&gt;Layer-7 traffic processing cannot be performed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;demo&#34;&gt;Demo&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../../docs/demos/ingress_passthrough&#34;&gt;How to use SSL passthrough feature of Flomesh Ingress&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
