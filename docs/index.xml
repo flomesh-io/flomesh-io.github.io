@@ -2134,5 +2134,3181 @@ Hi, I am from cluster-3 and controlled by mesh!
       </description>
     </item>
     
+    <item>
+      <title>Docs: Cluster v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/cluster/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/cluster/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Cluster&#34;&gt;Cluster&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.Cluster&#34;&gt;Cluster
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Cluster is the Schema for the clusters API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Cluster&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ClusterSpec&#34;&gt;
+ClusterSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;isInCluster&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;IsInCluster, it indicates the Cluster resource is used for connecting local cluster
+or a remote cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;region&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Region, the locality information of this cluster&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;zone&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Zone, the locality information of this cluster&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group, the locality information of this cluster&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;gatewayHost&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;GatewayHost, the Full Qualified Domain Name or IP of the gateway/ingress of this cluster
+If it&amp;rsquo;s an IP address, only IPv4 is supported&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;gatewayPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The port number of the gateway&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubeconfig&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Kubeconfig, The kubeconfig of the cluster you want to connnect to
+This&amp;rsquo;s not needed if ClusterMode is InCluster, it will use InCluster
+config&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ClusterStatus&#34;&gt;
+ClusterStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ClusterConditionType&#34;&gt;ClusterConditionType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;ClusterConditionType identifies a specific condition.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Managed&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;ClusterManaged means that the cluster has joined the CLusterSet successfully
+and is managed by Control Plane.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ClusterSpec&#34;&gt;ClusterSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.Cluster&#34;&gt;Cluster&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ClusterSpec defines the desired state of Cluster&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;isInCluster&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;IsInCluster, it indicates the Cluster resource is used for connecting local cluster
+or a remote cluster.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;region&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Region, the locality information of this cluster&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;zone&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Zone, the locality information of this cluster&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;group&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Group, the locality information of this cluster&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;gatewayHost&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;GatewayHost, the Full Qualified Domain Name or IP of the gateway/ingress of this cluster
+If it&amp;rsquo;s an IP address, only IPv4 is supported&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;gatewayPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The port number of the gateway&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kubeconfig&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Kubeconfig, The kubeconfig of the cluster you want to connnect to
+This&amp;rsquo;s not needed if ClusterMode is InCluster, it will use InCluster
+config&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ClusterStatus&#34;&gt;ClusterStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.Cluster&#34;&gt;Cluster&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ClusterStatus defines the observed state of Cluster&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#condition-v1-meta&#34;&gt;
+[]Kubernetes meta/v1.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: GlobalTrafficPolicy v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/globaltrafficpolicy/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/globaltrafficpolicy/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicy&#34;&gt;GlobalTrafficPolicy&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.GlobalTrafficPolicy&#34;&gt;GlobalTrafficPolicy
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;GlobalTrafficPolicy is the Schema for the GlobalTrafficPolicys API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;GlobalTrafficPolicy&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicySpec&#34;&gt;
+GlobalTrafficPolicySpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lbType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.LoadBalancerType&#34;&gt;
+LoadBalancerType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type of global load distribution&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;targets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.TrafficTarget&#34;&gt;
+[]TrafficTarget
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicyStatus&#34;&gt;
+GlobalTrafficPolicyStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.GlobalTrafficPolicySpec&#34;&gt;GlobalTrafficPolicySpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicy&#34;&gt;GlobalTrafficPolicy&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;GlobalTrafficPolicySpec defines the desired state of GlobalTrafficPolicy&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;lbType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.LoadBalancerType&#34;&gt;
+LoadBalancerType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type of global load distribution&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;targets&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.TrafficTarget&#34;&gt;
+[]TrafficTarget
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.GlobalTrafficPolicyStatus&#34;&gt;GlobalTrafficPolicyStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicy&#34;&gt;GlobalTrafficPolicy&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;GlobalTrafficPolicyStatus defines the observed state of GlobalTrafficPolicy&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.LoadBalancerType&#34;&gt;LoadBalancerType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicySpec&#34;&gt;GlobalTrafficPolicySpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ActiveActive&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;FailOver&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Locality&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.TrafficTarget&#34;&gt;TrafficTarget
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.GlobalTrafficPolicySpec&#34;&gt;GlobalTrafficPolicySpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Format: [region]/[zone]/[group]/[cluster]&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;weight&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MulticlusterEndpoint v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/multiclusterendpoint/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/multiclusterendpoint/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.MultiClusterEndpoint&#34;&gt;MultiClusterEndpoint&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.MultiClusterEndpoint&#34;&gt;MultiClusterEndpoint
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;MultiClusterEndpoint is the Schema for the MultiClusterEndpoints API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MultiClusterEndpoint&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.MultiClusterEndpointSpec&#34;&gt;
+MultiClusterEndpointSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Target&#34;&gt;
+Target
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.MultiClusterEndpointStatus&#34;&gt;
+MultiClusterEndpointStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.MultiClusterEndpointSpec&#34;&gt;MultiClusterEndpointSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.MultiClusterEndpoint&#34;&gt;MultiClusterEndpoint&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;MultiClusterEndpointSpec defines the desired state of MultiClusterEndpoint&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Target&#34;&gt;
+Target
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.MultiClusterEndpointStatus&#34;&gt;MultiClusterEndpointStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.MultiClusterEndpoint&#34;&gt;MultiClusterEndpoint&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;MultiClusterEndpointStatus defines the observed state of MultiClusterEndpoint&lt;/p&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.Target&#34;&gt;Target
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.MultiClusterEndpointSpec&#34;&gt;MultiClusterEndpointSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;host&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;ip&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;port&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;path&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: NamespacedIngress v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/namespacedingress/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/namespacedingress/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngress&#34;&gt;NamespacedIngress&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.NamespacedIngress&#34;&gt;NamespacedIngress
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;NamespacedIngress is the Schema for the NamespacedIngresss API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;NamespacedIngress&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngressSpec&#34;&gt;
+NamespacedIngressSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#servicetype-v1-core&#34;&gt;
+Kubernetes core/v1.ServiceType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ServiceType determines how the Ingress is exposed. For an Ingress
+the most used types are NodePort, and LoadBalancer&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAnnotations&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ServiceAnnotations, those annotations are applied to Ingress Service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceLabels&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ServiceLabels, those annotations are applied to Ingress Service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;podAnnotations&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PodAnnotations, those annotations are applied to Ingress POD&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;podLabels&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PodAnnotations, those labels are applied to Ingress POD&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;http&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.HTTP&#34;&gt;
+HTTP
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The http configuration of this ingress controller.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tls&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.TLS&#34;&gt;
+TLS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;TLS is the configuration of TLS of this ingress controller&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;env&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;List of environment variables to set in the ingress container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;resources&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core&#34;&gt;
+Kubernetes core/v1.ResourceRequirements
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Compute Resources required by Ingress container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;nodeSelector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;NodeSelector is a selector which must be true for the pod to fit on a node.
+Selector which must match a node&amp;rsquo;s labels for the pod to be scheduled on that node.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccountName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ServiceAccountName is the name of the ServiceAccount to use to run this pod.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;affinity&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#affinity-v1-core&#34;&gt;
+Kubernetes core/v1.Affinity
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If specified, the pod&amp;rsquo;s scheduling constraints&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tolerations&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#toleration-v1-core&#34;&gt;
+[]Kubernetes core/v1.Toleration
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If specified, the pod&amp;rsquo;s tolerations.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;logLevel&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;LogLevel is the log level of this ingress controller pod.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;replicas&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Replicas, how many replicas of the ingress controller will be running for this namespace.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;securityContext&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#securitycontext-v1-core&#34;&gt;
+Kubernetes core/v1.SecurityContext
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;SecurityContext defines the security options the container should be run with.
+If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;podSecurityContext&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#podsecuritycontext-v1-core&#34;&gt;
+Kubernetes core/v1.PodSecurityContext
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PodSecurityContext holds pod-level security attributes and common container settings.
+Optional: Defaults to empty.  See type description for default values of each field.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngressStatus&#34;&gt;
+NamespacedIngressStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.HTTP&#34;&gt;HTTP
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngressSpec&#34;&gt;NamespacedIngressSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Enabled, if HTTP is enabled for the Ingress Controller&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;port&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#serviceport-v1-core&#34;&gt;
+Kubernetes core/v1.ServicePort
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Port, The http port that are exposed by this ingress service.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.NamespacedIngressSpec&#34;&gt;NamespacedIngressSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngress&#34;&gt;NamespacedIngress&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;NamespacedIngressSpec defines the desired state of NamespacedIngress&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#servicetype-v1-core&#34;&gt;
+Kubernetes core/v1.ServiceType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ServiceType determines how the Ingress is exposed. For an Ingress
+the most used types are NodePort, and LoadBalancer&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAnnotations&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ServiceAnnotations, those annotations are applied to Ingress Service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceLabels&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ServiceLabels, those annotations are applied to Ingress Service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;podAnnotations&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PodAnnotations, those annotations are applied to Ingress POD&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;podLabels&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PodAnnotations, those labels are applied to Ingress POD&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;http&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.HTTP&#34;&gt;
+HTTP
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The http configuration of this ingress controller.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tls&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.TLS&#34;&gt;
+TLS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;TLS is the configuration of TLS of this ingress controller&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;env&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;List of environment variables to set in the ingress container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;resources&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core&#34;&gt;
+Kubernetes core/v1.ResourceRequirements
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Compute Resources required by Ingress container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;nodeSelector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;NodeSelector is a selector which must be true for the pod to fit on a node.
+Selector which must match a node&amp;rsquo;s labels for the pod to be scheduled on that node.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccountName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ServiceAccountName is the name of the ServiceAccount to use to run this pod.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;affinity&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#affinity-v1-core&#34;&gt;
+Kubernetes core/v1.Affinity
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If specified, the pod&amp;rsquo;s scheduling constraints&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tolerations&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#toleration-v1-core&#34;&gt;
+[]Kubernetes core/v1.Toleration
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If specified, the pod&amp;rsquo;s tolerations.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;logLevel&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;LogLevel is the log level of this ingress controller pod.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;replicas&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Replicas, how many replicas of the ingress controller will be running for this namespace.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;securityContext&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#securitycontext-v1-core&#34;&gt;
+Kubernetes core/v1.SecurityContext
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;SecurityContext defines the security options the container should be run with.
+If set, the fields of SecurityContext override the equivalent fields of PodSecurityContext.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;podSecurityContext&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#podsecuritycontext-v1-core&#34;&gt;
+Kubernetes core/v1.PodSecurityContext
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PodSecurityContext holds pod-level security attributes and common container settings.
+Optional: Defaults to empty.  See type description for default values of each field.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.NamespacedIngressStatus&#34;&gt;NamespacedIngressStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngress&#34;&gt;NamespacedIngress&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;NamespacedIngressStatus defines the observed state of NamespacedIngress&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;replicas&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;selector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.SSLPassthrough&#34;&gt;SSLPassthrough
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.TLS&#34;&gt;TLS&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Enabled, if SSL passthrough is enabled for the Ingress Controller
+It&amp;rsquo;s mutual exclusive with TLS offload/termination within the controller scope.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;upstreamPort&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;UpstreamPort, is the port of upstream services.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.TLS&#34;&gt;TLS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.NamespacedIngressSpec&#34;&gt;NamespacedIngressSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Enabled, if TLS is enabled for the Ingress Controller&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;port&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#serviceport-v1-core&#34;&gt;
+Kubernetes core/v1.ServicePort
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Port, The https port that are exposed by this ingress service.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sslPassthrough&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.SSLPassthrough&#34;&gt;
+SSLPassthrough
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;SSLPassthrough configuration&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ProxyProfile v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;ProxyProfile is the Schema for the proxyprofiles API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ProxyProfile&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;
+ProxyProfileSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;disabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;If this ProxyProfile is Disabled. A disabled ProxyProfile doesn&amp;rsquo;t participate
+the sidecar injection process.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;mode&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyConfigMode&#34;&gt;
+ProxyConfigMode
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigMode tells where the sidecar loads the scripts/config from, Local means from local files mounted by configmap,
+Remote means loads from remote pipy repo. Default value is Remote&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;selector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#labelselector-v1-meta&#34;&gt;
+Kubernetes meta/v1.LabelSelector
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Selector is a label query over pods that should be injected
+This&amp;rsquo;s optional, please NOTE a nil or empty Selector match
+nothing not everything.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namespace&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Namespace ProxyProfile will only match the pods in the namespace
+otherwise, match pods in all namespaces(in cluster)&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;config&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Config contains the configuration data.
+Each key must consist of alphanumeric characters, &amp;lsquo;-&amp;rsquo;, &amp;lsquo;_&amp;rsquo; or &amp;lsquo;.&amp;rsquo;.
+Values with non-UTF-8 byte sequences must use the BinaryData field.
+This option is mutually exclusive with RepoBaseUrl option, you can only
+have either one.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceEnv&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of environment variables to set in each of the service containers.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartPolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartPolicy&#34;&gt;
+ProxyRestartPolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartPolicy indicates if ProxyProfile is updated, those already injected PODs
+should be updated or not. Default value is Never, it only has impact to new created
+PODs, existing PODs will not be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartScope&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartScope&#34;&gt;
+ProxyRestartScope
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartScope takes effect when RestartPolicy is Always, it tells if we can restart
+the entire POD to apply the changes or only the sidecar containers inside the POD.
+Default value is Owner.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sidecars&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Sidecar&#34;&gt;
+[]Sidecar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of sidecars, will be injected into POD. It must have at least ONE sidecar and
+up to 5 maximum.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileStatus&#34;&gt;
+ProxyProfileStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyConfigMode&#34;&gt;ProxyConfigMode
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Local&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Remote&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ProxyProfileSpec defines the desired state of ProxyProfile&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;disabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;If this ProxyProfile is Disabled. A disabled ProxyProfile doesn&amp;rsquo;t participate
+the sidecar injection process.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;mode&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyConfigMode&#34;&gt;
+ProxyConfigMode
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigMode tells where the sidecar loads the scripts/config from, Local means from local files mounted by configmap,
+Remote means loads from remote pipy repo. Default value is Remote&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;selector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#labelselector-v1-meta&#34;&gt;
+Kubernetes meta/v1.LabelSelector
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Selector is a label query over pods that should be injected
+This&amp;rsquo;s optional, please NOTE a nil or empty Selector match
+nothing not everything.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namespace&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Namespace ProxyProfile will only match the pods in the namespace
+otherwise, match pods in all namespaces(in cluster)&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;config&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Config contains the configuration data.
+Each key must consist of alphanumeric characters, &amp;lsquo;-&amp;rsquo;, &amp;lsquo;_&amp;rsquo; or &amp;lsquo;.&amp;rsquo;.
+Values with non-UTF-8 byte sequences must use the BinaryData field.
+This option is mutually exclusive with RepoBaseUrl option, you can only
+have either one.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceEnv&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of environment variables to set in each of the service containers.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartPolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartPolicy&#34;&gt;
+ProxyRestartPolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartPolicy indicates if ProxyProfile is updated, those already injected PODs
+should be updated or not. Default value is Never, it only has impact to new created
+PODs, existing PODs will not be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartScope&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartScope&#34;&gt;
+ProxyRestartScope
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartScope takes effect when RestartPolicy is Always, it tells if we can restart
+the entire POD to apply the changes or only the sidecar containers inside the POD.
+Default value is Owner.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sidecars&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Sidecar&#34;&gt;
+[]Sidecar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of sidecars, will be injected into POD. It must have at least ONE sidecar and
+up to 5 maximum.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyProfileStatus&#34;&gt;ProxyProfileStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ProxyProfileStatus defines the observed state of ProxyProfile&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;configMaps&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;All associated config maps, key is namespace and value is the name of configmap&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyRestartPolicy&#34;&gt;ProxyRestartPolicy
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Always&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Never&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyRestartScope&#34;&gt;ProxyRestartScope
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Owner&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;ProxyRestartScopePod     ProxyRestartScope = &amp;ldquo;Pod&amp;rdquo;
+ProxyRestartScopeSidecar ProxyRestartScope = &amp;ldquo;Sidecar&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.Sidecar&#34;&gt;Sidecar
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name of the container specified as a DNS_LABEL.
+Each container in a pod must have a unique name (DNS_LABEL).
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;startupScriptName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The file name of entrypoint script for starting the PIPY instance.
+If not provided, the default value is the value of Name field with surfix .js.
+For example, if the Name of the sidecar is proxy, it looks up proxy.js in config folder.
+It only works in local config mode, if pulls scripts from remote repo, the repo server
+returns the name of startup script.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;image&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Docker image name.
+This field is optional to allow higher level config management to default or override
+container images in workload controllers like Deployments and StatefulSets.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;imagePullPolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#pullpolicy-v1-core&#34;&gt;
+Kubernetes core/v1.PullPolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Image pull policy.
+One of Always, Never, IfNotPresent.
+Defaults to Always if :latest tag is specified, or IfNotPresent otherwise.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;env&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of environment variables to set in the sidecar container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;command&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Entrypoint array. Not executed within a shell.
+The docker image&amp;rsquo;s ENTRYPOINT is used if this is not provided.
+Variable references $(VAR_NAME) are expanded using the container&amp;rsquo;s environment. If a variable
+cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax
+can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
+regardless of whether the variable exists or not.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;args&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Arguments to the entrypoint.
+The docker image&amp;rsquo;s CMD is used if this is not provided.
+Variable references $(VAR_NAME) are expanded using the container&amp;rsquo;s environment. If a variable
+cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax
+can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
+regardless of whether the variable exists or not.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;resources&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core&#34;&gt;
+Kubernetes core/v1.ResourceRequirements
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Compute Resources required by this container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ServiceExport v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/serviceexport/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/serviceexport/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExport&#34;&gt;ServiceExport&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceExport&#34;&gt;ServiceExport
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceExport is the Schema for the ServiceExports API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ServiceExport&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExportSpec&#34;&gt;
+ServiceExportSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;pathRewrite&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.PathRewrite&#34;&gt;
+PathRewrite
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PathRewrite, it shares ONE rewrite rule for the same ServiceExport&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sessionSticky&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Indicates if session sticky is  enabled&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;loadBalancer&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+github.com/flomesh-io/fsm/pkg/route.AlgoBalancer
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The LoadBalancer Type applied to the Ingress Rules those created by the ServiceExport&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;rules&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExportRule&#34;&gt;
+[]ServiceExportRule
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The paths for accessing the service via Ingress controller&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;targetClusters&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If empty, service is exported to all managed clusters.
+If not empty, service is exported to specified clusters,
+must be in format [region]/[zone]/[group]/[cluster]&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccountName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The ServiceAccount associated with this service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExportStatus&#34;&gt;
+ServiceExportStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.PathRewrite&#34;&gt;PathRewrite
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExportSpec&#34;&gt;ServiceExportSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;from&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;to&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceExportConditionType&#34;&gt;ServiceExportConditionType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceExportConditionType identifies a specific condition.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Conflict&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;ServiceExportConflict means that there is a conflict between two
+exports for the same Service. When &amp;ldquo;True&amp;rdquo;, the condition message
+should contain enough information to diagnose the conflict:
+field(s) under contention, which cluster won, and why.
+Users should not expect detailed per-cluster information in the
+conflict message.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Valid&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;ServiceExportValid means that the service referenced by this
+service export has been recognized as valid by controller.
+This will be false if the service is found to be unexportable
+(ExternalName, not found).&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceExportRule&#34;&gt;ServiceExportRule
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExportSpec&#34;&gt;ServiceExportSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;portNumber&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The port number of service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;path&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Path is matched against the path of an incoming request. Currently it can
+contain characters disallowed from the conventional &amp;ldquo;path&amp;rdquo; part of a URL
+as defined by RFC 3986. Paths must begin with a &amp;lsquo;/&amp;rsquo; and must be present
+when using PathType with value &amp;ldquo;Exact&amp;rdquo; or &amp;ldquo;Prefix&amp;rdquo;.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;pathType&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#pathtype-v1-networking&#34;&gt;
+Kubernetes networking/v1.PathType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceExportSpec&#34;&gt;ServiceExportSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExport&#34;&gt;ServiceExport&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceExportSpec defines the desired state of ServiceExport&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;pathRewrite&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.PathRewrite&#34;&gt;
+PathRewrite
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;PathRewrite, it shares ONE rewrite rule for the same ServiceExport&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sessionSticky&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Indicates if session sticky is  enabled&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;loadBalancer&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+github.com/flomesh-io/fsm/pkg/route.AlgoBalancer
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The LoadBalancer Type applied to the Ingress Rules those created by the ServiceExport&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;rules&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExportRule&#34;&gt;
+[]ServiceExportRule
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The paths for accessing the service via Ingress controller&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;targetClusters&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If empty, service is exported to all managed clusters.
+If not empty, service is exported to specified clusters,
+must be in format [region]/[zone]/[group]/[cluster]&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccountName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The ServiceAccount associated with this service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceExportStatus&#34;&gt;ServiceExportStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceExport&#34;&gt;ServiceExport&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceExportStatus defines the observed state of ServiceExport&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#condition-v1-meta&#34;&gt;
+[]Kubernetes meta/v1.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ServiceImport v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/serviceimport/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/serviceimport/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImport&#34;&gt;ServiceImport&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceImport&#34;&gt;ServiceImport
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceImport is the Schema for the ServiceImports API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ServiceImport&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportSpec&#34;&gt;
+ServiceImportSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;ports&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServicePort&#34;&gt;
+[]ServicePort
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;ips&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ip will be used as the VIP for this service when type is ClusterSetIP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportType&#34;&gt;
+ServiceImportType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;type defines the type of this service.
+Must be ClusterSetIP or Headless.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sessionAffinity&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#serviceaffinity-v1-core&#34;&gt;
+Kubernetes core/v1.ServiceAffinity
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Supports &amp;ldquo;ClientIP&amp;rdquo; and &amp;ldquo;None&amp;rdquo;. Used to maintain session affinity.
+Enable client IP based session affinity.
+Must be ClientIP or None.
+Defaults to None.
+Ignored when type is Headless
+More info: &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies&#34;&gt;https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies&lt;/a&gt;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sessionAffinityConfig&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#sessionaffinityconfig-v1-core&#34;&gt;
+Kubernetes core/v1.SessionAffinityConfig
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;sessionAffinityConfig contains session affinity configuration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccountName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The ServiceAccount associated with this service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportStatus&#34;&gt;
+ServiceImportStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ClusterStatus&#34;&gt;ClusterStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportStatus&#34;&gt;ServiceImportStatus&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ClusterStatus contains service configuration mapped to a specific source cluster&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;cluster&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;cluster is the name of the exporting cluster. Must be a valid RFC-1123 DNS
+label.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;addresses&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;in-cluster service, it&amp;rsquo;s the cluster IPs
+otherwise, it&amp;rsquo;s the url of accessing that service in remote cluster
+for example, http(s)://[Ingress IP/domain name]:[port]/[path]&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.Endpoint&#34;&gt;Endpoint
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServicePort&#34;&gt;ServicePort&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;target&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Target&#34;&gt;
+Target
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterKey&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceImportSpec&#34;&gt;ServiceImportSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImport&#34;&gt;ServiceImport&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceImportSpec describes an imported service and the information necessary to consume it.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;ports&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServicePort&#34;&gt;
+[]ServicePort
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;ips&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;ip will be used as the VIP for this service when type is ClusterSetIP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportType&#34;&gt;
+ServiceImportType
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;type defines the type of this service.
+Must be ClusterSetIP or Headless.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sessionAffinity&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#serviceaffinity-v1-core&#34;&gt;
+Kubernetes core/v1.ServiceAffinity
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;Supports &amp;ldquo;ClientIP&amp;rdquo; and &amp;ldquo;None&amp;rdquo;. Used to maintain session affinity.
+Enable client IP based session affinity.
+Must be ClientIP or None.
+Defaults to None.
+Ignored when type is Headless
+More info: &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies&#34;&gt;https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies&lt;/a&gt;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sessionAffinityConfig&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#sessionaffinityconfig-v1-core&#34;&gt;
+Kubernetes core/v1.SessionAffinityConfig
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;sessionAffinityConfig contains session affinity configuration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceAccountName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The ServiceAccount associated with this service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceImportStatus&#34;&gt;ServiceImportStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImport&#34;&gt;ServiceImport&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceImportStatus describes derived state of an imported service.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusters&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ClusterStatus&#34;&gt;
+[]ClusterStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;clusters is the list of exporting clusters from which this service
+was derived.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServiceImportType&#34;&gt;ServiceImportType
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportSpec&#34;&gt;ServiceImportSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ServiceImportType designates the type of a ServiceImport&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;ClusterSetIP&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;ClusterSetIP are only accessible via the ClusterSet IP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Headless&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;Headless services allow backend pods to be addressed directly.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ServicePort&#34;&gt;ServicePort
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ServiceImportSpec&#34;&gt;ServiceImportSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ServicePort represents the port on which the service is exposed&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The name of this port within the service. This must be a DNS_LABEL.
+All ports within a ServiceSpec must have unique names. When considering
+the endpoints for a Service, this must match the &amp;lsquo;name&amp;rsquo; field in the
+EndpointPort.
+Optional if only one ServicePort is defined on this service.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;protocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#protocol-v1-core&#34;&gt;
+Kubernetes core/v1.Protocol
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The IP protocol for this port. Supports &amp;ldquo;TCP&amp;rdquo;, &amp;ldquo;UDP&amp;rdquo;, and &amp;ldquo;SCTP&amp;rdquo;.
+Default is TCP.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;appProtocol&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The application protocol for this port.
+This field follows standard Kubernetes label syntax.
+Un-prefixed names are reserved for IANA standard service names (as per
+RFC-6335 and &lt;a href=&#34;http://www.iana.org/assignments/service-names)&#34;&gt;http://www.iana.org/assignments/service-names)&lt;/a&gt;.
+Non-standard protocols should use prefixed names such as
+mycompany.com/my-custom-protocol.
+Field can be enabled with ServiceAppProtocol feature gate.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;port&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The port that will be exposed by this service.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;endpoints&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Endpoint&#34;&gt;
+[]Endpoint
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The address of accessing the service&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.Target&#34;&gt;Target
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.Endpoint&#34;&gt;Endpoint&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;host&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;ip&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;port&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+int32
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;path&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>

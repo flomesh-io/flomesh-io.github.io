@@ -1,0 +1,619 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flomesh Service Mesh – ProxyProfile API Reference</title>
+    <link>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/</link>
+    <description>Recent content in ProxyProfile API Reference on Flomesh Service Mesh</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	  <atom:link href="https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: ProxyProfile v1alpha1 API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/v1alpha1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/v1alpha1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;#flomesh.io%2fv1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;flomesh.io/v1alpha1&#34;&gt;flomesh.io/v1alpha1&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1 is the v1alpha1 version of the API.&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;li&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile&lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;ProxyProfile is the Schema for the proxyprofiles API&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;apiVersion&lt;/code&gt;&lt;br/&gt;
+string&lt;/td&gt;
+&lt;td&gt;
+&lt;code&gt;
+flomesh.io/v1alpha1
+&lt;/code&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;kind&lt;/code&gt;&lt;br/&gt;
+string
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ProxyProfile&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;
+ProxyProfileSpec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;disabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;If this ProxyProfile is Disabled. A disabled ProxyProfile doesn&amp;rsquo;t participate
+the sidecar injection process.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;mode&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyConfigMode&#34;&gt;
+ProxyConfigMode
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigMode tells where the sidecar loads the scripts/config from, Local means from local files mounted by configmap,
+Remote means loads from remote pipy repo. Default value is Remote&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;selector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#labelselector-v1-meta&#34;&gt;
+Kubernetes meta/v1.LabelSelector
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Selector is a label query over pods that should be injected
+This&amp;rsquo;s optional, please NOTE a nil or empty Selector match
+nothing not everything.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namespace&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Namespace ProxyProfile will only match the pods in the namespace
+otherwise, match pods in all namespaces(in cluster)&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;config&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Config contains the configuration data.
+Each key must consist of alphanumeric characters, &amp;lsquo;-&amp;rsquo;, &amp;lsquo;_&amp;rsquo; or &amp;lsquo;.&amp;rsquo;.
+Values with non-UTF-8 byte sequences must use the BinaryData field.
+This option is mutually exclusive with RepoBaseUrl option, you can only
+have either one.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceEnv&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of environment variables to set in each of the service containers.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartPolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartPolicy&#34;&gt;
+ProxyRestartPolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartPolicy indicates if ProxyProfile is updated, those already injected PODs
+should be updated or not. Default value is Never, it only has impact to new created
+PODs, existing PODs will not be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartScope&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartScope&#34;&gt;
+ProxyRestartScope
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartScope takes effect when RestartPolicy is Always, it tells if we can restart
+the entire POD to apply the changes or only the sidecar containers inside the POD.
+Default value is Owner.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sidecars&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Sidecar&#34;&gt;
+[]Sidecar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of sidecars, will be injected into POD. It must have at least ONE sidecar and
+up to 5 maximum.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileStatus&#34;&gt;
+ProxyProfileStatus
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyConfigMode&#34;&gt;ProxyConfigMode
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Local&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Remote&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ProxyProfileSpec defines the desired state of ProxyProfile&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;disabled&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;If this ProxyProfile is Disabled. A disabled ProxyProfile doesn&amp;rsquo;t participate
+the sidecar injection process.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;mode&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyConfigMode&#34;&gt;
+ProxyConfigMode
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ConfigMode tells where the sidecar loads the scripts/config from, Local means from local files mounted by configmap,
+Remote means loads from remote pipy repo. Default value is Remote&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;selector&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#labelselector-v1-meta&#34;&gt;
+Kubernetes meta/v1.LabelSelector
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Selector is a label query over pods that should be injected
+This&amp;rsquo;s optional, please NOTE a nil or empty Selector match
+nothing not everything.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;namespace&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Namespace ProxyProfile will only match the pods in the namespace
+otherwise, match pods in all namespaces(in cluster)&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;config&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Config contains the configuration data.
+Each key must consist of alphanumeric characters, &amp;lsquo;-&amp;rsquo;, &amp;lsquo;_&amp;rsquo; or &amp;lsquo;.&amp;rsquo;.
+Values with non-UTF-8 byte sequences must use the BinaryData field.
+This option is mutually exclusive with RepoBaseUrl option, you can only
+have either one.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;serviceEnv&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of environment variables to set in each of the service containers.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartPolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartPolicy&#34;&gt;
+ProxyRestartPolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartPolicy indicates if ProxyProfile is updated, those already injected PODs
+should be updated or not. Default value is Never, it only has impact to new created
+PODs, existing PODs will not be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;restartScope&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyRestartScope&#34;&gt;
+ProxyRestartScope
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;RestartScope takes effect when RestartPolicy is Always, it tells if we can restart
+the entire POD to apply the changes or only the sidecar containers inside the POD.
+Default value is Owner.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;sidecars&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#flomesh.io/v1alpha1.Sidecar&#34;&gt;
+[]Sidecar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of sidecars, will be injected into POD. It must have at least ONE sidecar and
+up to 5 maximum.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyProfileStatus&#34;&gt;ProxyProfileStatus
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfile&#34;&gt;ProxyProfile&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;ProxyProfileStatus defines the observed state of ProxyProfile&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;configMaps&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;All associated config maps, key is namespace and value is the name of configmap&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyRestartPolicy&#34;&gt;ProxyRestartPolicy
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Always&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Never&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.ProxyRestartScope&#34;&gt;ProxyRestartScope
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Owner&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;ProxyRestartScopePod     ProxyRestartScope = &amp;ldquo;Pod&amp;rdquo;
+ProxyRestartScopeSidecar ProxyRestartScope = &amp;ldquo;Sidecar&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;flomesh.io/v1alpha1.Sidecar&#34;&gt;Sidecar
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#flomesh.io/v1alpha1.ProxyProfileSpec&#34;&gt;ProxyProfileSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name of the container specified as a DNS_LABEL.
+Each container in a pod must have a unique name (DNS_LABEL).
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;startupScriptName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;The file name of entrypoint script for starting the PIPY instance.
+If not provided, the default value is the value of Name field with surfix .js.
+For example, if the Name of the sidecar is proxy, it looks up proxy.js in config folder.
+It only works in local config mode, if pulls scripts from remote repo, the repo server
+returns the name of startup script.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;image&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Docker image name.
+This field is optional to allow higher level config management to default or override
+container images in workload controllers like Deployments and StatefulSets.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;imagePullPolicy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#pullpolicy-v1-core&#34;&gt;
+Kubernetes core/v1.PullPolicy
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Image pull policy.
+One of Always, Never, IfNotPresent.
+Defaults to Always if :latest tag is specified, or IfNotPresent otherwise.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;env&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#envvar-v1-core&#34;&gt;
+[]Kubernetes core/v1.EnvVar
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;List of environment variables to set in the sidecar container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;command&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Entrypoint array. Not executed within a shell.
+The docker image&amp;rsquo;s ENTRYPOINT is used if this is not provided.
+Variable references $(VAR_NAME) are expanded using the container&amp;rsquo;s environment. If a variable
+cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax
+can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
+regardless of whether the variable exists or not.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;args&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+[]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Arguments to the entrypoint.
+The docker image&amp;rsquo;s CMD is used if this is not provided.
+Variable references $(VAR_NAME) are expanded using the container&amp;rsquo;s environment. If a variable
+cannot be resolved, the reference in the input string will be unchanged. The $(VAR_NAME) syntax
+can be escaped with a double $$, ie: $$(VAR_NAME). Escaped references will never be expanded,
+regardless of whether the variable exists or not.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;resources&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-20.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#resourcerequirements-v1-core&#34;&gt;
+Kubernetes core/v1.ResourceRequirements
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Compute Resources required by this container.
+Cannot be updated.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;&lt;em&gt;
+Generated with &lt;code&gt;gen-crd-api-reference-docs&lt;/code&gt;
+on git commit &lt;code&gt;6e7a62e&lt;/code&gt;.
+&lt;/em&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -14,5 +14,96 @@
       
     
     
+    <item>
+      <title>Docs: Cluster API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/cluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/cluster/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: GlobalTrafficPolicy API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/globaltrafficpolicy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/globaltrafficpolicy/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterEndpoint API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/multiclusterendpoint/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/multiclusterendpoint/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: NamespacedIngress API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/namespacedingress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/namespacedingress/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ProxyProfile API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ServiceExport API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/serviceexport/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/serviceexport/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ServiceImport API Reference</title>
+      <link>https://fsm-docs.flomesh.io/docs/api_rerence/serviceimport/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://fsm-docs.flomesh.io/docs/api_rerence/serviceimport/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
   </channel>
 </rss>

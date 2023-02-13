@@ -38,10 +38,6 @@
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://fsm-docs.flomesh.io/docs/quickstart/</loc>
-    <changefreq>always</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/guides/egress_gateway/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
@@ -106,11 +102,67 @@
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/cluster/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/cluster/v1alpha1/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://fsm-docs.flomesh.io/docs/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://fsm-docs.flomesh.io/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/globaltrafficpolicy/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/globaltrafficpolicy/v1alpha1/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/multiclusterendpoint/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/multiclusterendpoint/v1alpha1/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/namespacedingress/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/namespacedingress/v1alpha1/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/proxyprofile/v1alpha1/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/serviceexport/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/serviceexport/v1alpha1/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/serviceimport/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://fsm-docs.flomesh.io/docs/api_rerence/serviceimport/v1alpha1/</loc>
     <changefreq>always</changefreq>
     <priority>0.5</priority>
   </url><url>
